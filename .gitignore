@@ -1,2 +1,4 @@
 aiat/**
-src/data/**
+src/data/*/*
+**/__pycache__/
+src/log/**

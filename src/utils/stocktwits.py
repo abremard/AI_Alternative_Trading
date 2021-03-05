@@ -45,8 +45,8 @@ def extract(symbol, params=None):
         print(date, next)
         messagesList = messagesList + messages
     outputPath = "./data/stocktwits/"+str(i+2)+"-"+symbol+"_"+str(next)+".json"
-    with open(outputPath,  "w", encoding="utf8") as outf:
+    with open(outputPath, "w", encoding="utf8") as outf:
         outf.write(json.dumps(messagesList))
     outputPath = "./data/stocktwits/"+symbol+"-metadata.json"
-    with open(outputPath,  "w", encoding="utf8") as outf:
+    with open(outputPath, "w", encoding="utf8") as outf:
         outf.write(json.dumps(symbolDict))

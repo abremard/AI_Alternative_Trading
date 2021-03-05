@@ -71,3 +71,23 @@ def earnings_download(symbols):
         }
         outputPath = "./data/fundamental/earnings/"+symbol+".json"
         api_req(params=params, format="json", outputPath=outputPath)
+
+def crypto_daily(symbols, market="USD"):
+    for symbol in symbols:
+        params = {
+            "function": "DIGITAL_CURRENCY_DAILY",
+            "symbol": symbol,
+            "market": market
+        }
+        outputPath = "./data/crypto/daily/"+symbol+".json"
+        api_req(params=params, format="json", outputPath=outputPath)
+
+def crypto_rating(symbols):
+    # This is for real-time data, for historical data use flipside API wrapper instead
+    for symbol in symbols:
+        params = {
+            "function": "CRYPTO_RATING",
+            "symbol": symbol,
+        }
+        outputPath = "./data/crypto/rating/"+symbol+".json"
+        api_req(params=params, format="json", outputPath=outputPath)

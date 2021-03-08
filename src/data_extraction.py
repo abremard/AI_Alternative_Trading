@@ -1,33 +1,38 @@
-import requests
-import os
-import subprocess
-import datetime
-import logging
-import urllib
-import sys
-import pandas as pd
-import io
+""" Main script for data extraction
+"""
 
-from utils import logger, utils
-from utils import alphavantage as alphav
-from utils import motleyfool as mfool
-from utils import stocktwits as stwits
-from utils import flipside
-from utils import coindesk
+from utils import logger, request
+from scrape import alphavantage as alphav
+from scrape import motleyfool as mfool
+from scrape import stocktwits as stwits
+from scrape import flipside, coindesk
+from elk import setup
 
 # ----------------------------------------------------------------------------------------------------------------
 
-logger.log_config()
+# logger.log_config()
+
+# ------------- ELASTIC SEARCH CREATE INDEX --------------
+
+# slug = "crypto_news"
+# setup.create_index(slug)
 
 # ------------- EARNING CALLS --------------
 
-# mfool.all_transcripts_download(startPage=3,endPage=4)
+# for i in range(5):
+#     print("scraping from "+str(i*20+1)+" to "+str((i+1)*20))
+#     mfool.all_transcripts_download(startPage=(i*20+1),endPage=((i+1)*20))
+#     print(str(i*20+1)+" to "+str((i+1)*20)+" done!")
+# mfool.all_transcripts_download(startPage=101,endPage=200)
+# mfool.ec_transcript_download(href="/earnings/call-transcripts/2021/03/03/axon-enterprise-aaxn-q4-2020-earnings-call-transcr/", title="Agile Therapeutics (AGRX) Q4 2020 Earnings Call Transcript")
 
 # ------------- TIME SERIES --------------
 
 # symbols = ["IBM", "AAPL", "AMGN", "GOOG", "AMZN", "EBAY", "MSFT", "NFLX", "NVDA"]
 # symbols = ["IBM"]
+# symbols = ["BTC"]
 # alphav.daily_download(symbols=symbols)
+# alphav.crypto_daily(symbols=symbols)
 
 # ------------- SEC FILINGS --------------
 
@@ -38,10 +43,11 @@ logger.log_config()
 
 # ------------- STOCKTWITS --------------
 
-# symbol = "BTC"
-# stwits.extract(symbol=symbol, params=294481182)
+# symbol = "AAL"
+# stwits.extract(symbol=symbol, nb=50)
+# stwits.extract(symbol=symbol, nb=50, params=294481182)
 
-# ------------- FLIPSIDE --------------
+# ------------- FLIPSIDE est.2017 --------------
 
 # projects = ['BTC', 'ETC', 'ETH']
 # '''
@@ -58,4 +64,4 @@ logger.log_config()
 
 # ------------- COIN DESK --------------
 
-coindesk.all_articles_download(symbol="btc", startPage=1, endPage=2)
+# coindesk.all_articles_download(symbol="btc", startPage=1, endPage=2)

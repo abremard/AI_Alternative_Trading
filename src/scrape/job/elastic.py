@@ -1,3 +1,6 @@
+""" Python elasticsearch setup job
+"""
+
 import time
 
 from elk import setup

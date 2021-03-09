@@ -1,3 +1,6 @@
+""" Python flipside scraping job
+"""
+
 import time
 
 from scrape import flipside

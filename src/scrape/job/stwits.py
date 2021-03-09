@@ -1,3 +1,6 @@
+""" Python stwits scraping job
+"""
+
 import time
 
 from scrape import stocktwits as stwits

@@ -1,3 +1,6 @@
+""" Python coindesk scraping job
+"""
+
 import time
 
 from scrape import coindesk

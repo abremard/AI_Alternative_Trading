@@ -1,3 +1,6 @@
+""" Python motley fool scraping job
+"""
+
 import time
 
 from scrape import motleyfool as mfool

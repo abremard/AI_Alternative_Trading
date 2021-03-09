@@ -1,3 +1,6 @@
+""" Python alphavantage scraping job
+"""
+
 import time
 
 from scrape import alphavantage as alphav

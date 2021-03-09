@@ -242,18 +242,27 @@ def crypto_daily(symbols, market=&#34;USD&#34;):
         else:
             logger.info(&#34;Skipping &#34;+symbol+&#34; because request failed...&#34;)
 
+def job(symbols):
+    &#34;&#34;&#34; Scrape job for stocks. Gets daily prices + SEC informations
 
-&#34;&#34;&#34;
-def crypto_rating(symbols):
-    This is for real-time data, for historical data use flipside API wrapper instead
-    for symbol in symbols:
-        params = {
-            &#34;function&#34;: &#34;CRYPTO_RATING&#34;,
-            &#34;symbol&#34;: symbol,
-        }
-        outputPath = &#34;./data/crypto/rating/&#34;+symbol+&#34;.json&#34;
-        api_req(params=params)
-&#34;&#34;&#34;</code></pre>
+    Args:
+        symbols (str[]): list of stock symbols to extract data from
+    &#34;&#34;&#34;    
+    # ------------- TIME SERIES --------------
+    daily_download(symbols=symbols)
+    # ------------- SEC FILINGS --------------
+    income_statement_download(symbols=symbols)
+    balance_sheet_download(symbols=symbols)
+    cash_flow_download(symbols=symbols)
+    earnings_download(symbols=symbols)
+
+def crypto_job(symbols):
+    &#34;&#34;&#34; Scrape job for crypto. Gets daily prices
+
+    Args:
+        symbols (str[]): list of crypto symbols to extract data from
+    &#34;&#34;&#34;    
+    crypto_daily(symbols=symbols)</code></pre>
 </details>
 </section>
 <section>
@@ -442,6 +451,29 @@ def crypto_rating(symbols):
             logger.info(&#34;Skipping &#34;+symbol+&#34; because request failed...&#34;)</code></pre>
 </details>
 </dd>
+<dt id="src.scrape.alphavantage.crypto_job"><code class="name flex">
+<span>def <span class="ident">crypto_job</span></span>(<span>symbols)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Scrape job for crypto. Gets daily prices</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
+<dd>list of crypto symbols to extract data from</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def crypto_job(symbols):
+    &#34;&#34;&#34; Scrape job for crypto. Gets daily prices
+
+    Args:
+        symbols (str[]): list of crypto symbols to extract data from
+    &#34;&#34;&#34;    
+    crypto_daily(symbols=symbols)</code></pre>
+</details>
+</dd>
 <dt id="src.scrape.alphavantage.daily_download"><code class="name flex">
 <span>def <span class="ident">daily_download</span></span>(<span>symbols)</span>
 </code></dt>
@@ -575,6 +607,35 @@ def crypto_rating(symbols):
             logger.info(&#34;Skipping &#34;+symbol+&#34; because request failed...&#34;)</code></pre>
 </details>
 </dd>
+<dt id="src.scrape.alphavantage.job"><code class="name flex">
+<span>def <span class="ident">job</span></span>(<span>symbols)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Scrape job for stocks. Gets daily prices + SEC informations</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
+<dd>list of stock symbols to extract data from</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def job(symbols):
+    &#34;&#34;&#34; Scrape job for stocks. Gets daily prices + SEC informations
+
+    Args:
+        symbols (str[]): list of stock symbols to extract data from
+    &#34;&#34;&#34;    
+    # ------------- TIME SERIES --------------
+    daily_download(symbols=symbols)
+    # ------------- SEC FILINGS --------------
+    income_statement_download(symbols=symbols)
+    balance_sheet_download(symbols=symbols)
+    cash_flow_download(symbols=symbols)
+    earnings_download(symbols=symbols)</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -597,9 +658,11 @@ def crypto_rating(symbols):
 <li><code><a title="src.scrape.alphavantage.balance_sheet_download" href="#src.scrape.alphavantage.balance_sheet_download">balance_sheet_download</a></code></li>
 <li><code><a title="src.scrape.alphavantage.cash_flow_download" href="#src.scrape.alphavantage.cash_flow_download">cash_flow_download</a></code></li>
 <li><code><a title="src.scrape.alphavantage.crypto_daily" href="#src.scrape.alphavantage.crypto_daily">crypto_daily</a></code></li>
+<li><code><a title="src.scrape.alphavantage.crypto_job" href="#src.scrape.alphavantage.crypto_job">crypto_job</a></code></li>
 <li><code><a title="src.scrape.alphavantage.daily_download" href="#src.scrape.alphavantage.daily_download">daily_download</a></code></li>
 <li><code><a title="src.scrape.alphavantage.earnings_download" href="#src.scrape.alphavantage.earnings_download">earnings_download</a></code></li>
 <li><code><a title="src.scrape.alphavantage.income_statement_download" href="#src.scrape.alphavantage.income_statement_download">income_statement_download</a></code></li>
+<li><code><a title="src.scrape.alphavantage.job" href="#src.scrape.alphavantage.job">job</a></code></li>
 </ul>
 </li>
 </ul>

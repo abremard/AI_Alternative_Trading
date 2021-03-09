@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>src.scrape API documentation</title>
-<meta name="description" content="Python module for time-series and fundamental stock and crypto data scraping. Data includes: …" />
+<title>src.scrape.job.mfool API documentation</title>
+<meta name="description" content="Python motley fool scraping job" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,76 +19,28 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>src.scrape</code></h1>
+<h1 class="title">Module <code>src.scrape.job.mfool</code></h1>
 </header>
 <section id="section-intro">
-<p>Python module for time-series and fundamental stock and crypto data scraping. Data includes:</p>
-<ul>
-<li>OCHLV price data for both stock and crypto</li>
-<li>Earning Call Transcripts of top american stocks</li>
-<li>American stock SEC filings (quarterly balance sheet, cash flow, earnings and income statement)</li>
-<li>Stocktwits daily messages about a stock or coin</li>
-<li>Crypto Health Score (Dev score, FCAS, Market Maturity Score, Utility Score) as defined by Flipside</li>
-<li>Crypto news from Coindesk website</li>
-</ul>
-<p>Sources:</p>
-<ul>
-<li><a href="https://www.alphavantage.co/documentation/">https://www.alphavantage.co/documentation/</a></li>
-<li><a href="https://www.coindesk.com/">https://www.coindesk.com/</a></li>
-<li><a href="https://api-docs-v2.flipsidecrypto.com/">https://api-docs-v2.flipsidecrypto.com/</a></li>
-<li><a href="https://www.fool.com/earnings-call-transcripts">https://www.fool.com/earnings-call-transcripts</a></li>
-<li><a href="https://api.stocktwits.com/developers/docs/api">https://api.stocktwits.com/developers/docs/api</a></li>
-</ul>
+<p>Python motley fool scraping job</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34; Python module for time-series and fundamental stock and crypto data scraping. Data includes:\r\n
-    - OCHLV price data for both stock and crypto
-    - Earning Call Transcripts of top american stocks
-    - American stock SEC filings (quarterly balance sheet, cash flow, earnings and income statement)
-    - Stocktwits daily messages about a stock or coin
-    - Crypto Health Score (Dev score, FCAS, Market Maturity Score, Utility Score) as defined by Flipside
-    - Crypto news from Coindesk website
+<pre><code class="python">&#34;&#34;&#34; Python motley fool scraping job
+&#34;&#34;&#34;
 
-    Sources:\r\n
-    - https://www.alphavantage.co/documentation/
-    - https://www.coindesk.com/
-    - https://api-docs-v2.flipsidecrypto.com/
-    - https://www.fool.com/earnings-call-transcripts
-    - https://api.stocktwits.com/developers/docs/api
-&#34;&#34;&#34;</code></pre>
+# import time
+
+# from scrape import motleyfool as mfool
+
+# start = time.time()
+# mfool.job()
+# end = time.time()
+# print(&#34;Earning calls extraction took a total of &#34;+str(end - start)+&#34; seconds&#34;)</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="src.scrape.alphavantage" href="alphavantage.html">src.scrape.alphavantage</a></code></dt>
-<dd>
-<div class="desc"><p>Backed by the prestigious Y Combinator and composed of a tight-knit community of researchers, engineers, and business professionals, Alpha Vantage …</p></div>
-</dd>
-<dt><code class="name"><a title="src.scrape.coindesk" href="coindesk.html">src.scrape.coindesk</a></code></dt>
-<dd>
-<div class="desc"><p>CoinDesk is the media platform for the next generation of investors exploring how cryptocurrencies and digital assets are contributing to the …</p></div>
-</dd>
-<dt><code class="name"><a title="src.scrape.flipside" href="flipside.html">src.scrape.flipside</a></code></dt>
-<dd>
-<div class="desc"><p>Flipside makes available its asset rating score, FCAS, in addition to several other high-level value metrics that track Developer Activity, Blockchain …</p></div>
-</dd>
-<dt><code class="name"><a title="src.scrape.job" href="job/index.html">src.scrape.job</a></code></dt>
-<dd>
-<div class="desc"><p>Python scraping jobs. First run elastic.py job, then each job can in parallel shells.</p></div>
-</dd>
-<dt><code class="name"><a title="src.scrape.motleyfool" href="motleyfool.html">src.scrape.motleyfool</a></code></dt>
-<dd>
-<div class="desc"><p>Motley Fool provides transcripts of the most recent earnings calls for the companies that they cover.
-Information directly from the company on their …</p></div>
-</dd>
-<dt><code class="name"><a title="src.scrape.stocktwits" href="stocktwits.html">src.scrape.stocktwits</a></code></dt>
-<dd>
-<div class="desc"><p>Stocktwits API wrapper. Stocktwits is the largest social network for investors and traders, with over five million community members and millions of …</p></div>
-</dd>
-</dl>
 </section>
 <section>
 </section>
@@ -105,17 +57,7 @@ Information directly from the company on their …</p></div>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="src" href="../index.html">src</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
-<ul>
-<li><code><a title="src.scrape.alphavantage" href="alphavantage.html">src.scrape.alphavantage</a></code></li>
-<li><code><a title="src.scrape.coindesk" href="coindesk.html">src.scrape.coindesk</a></code></li>
-<li><code><a title="src.scrape.flipside" href="flipside.html">src.scrape.flipside</a></code></li>
-<li><code><a title="src.scrape.job" href="job/index.html">src.scrape.job</a></code></li>
-<li><code><a title="src.scrape.motleyfool" href="motleyfool.html">src.scrape.motleyfool</a></code></li>
-<li><code><a title="src.scrape.stocktwits" href="stocktwits.html">src.scrape.stocktwits</a></code></li>
+<li><code><a title="src.scrape.job" href="index.html">src.scrape.job</a></code></li>
 </ul>
 </li>
 </ul>

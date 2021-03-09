@@ -32,6 +32,7 @@ CoinDesk is the media platform for the next generation of investors exploring ho
 &#34;&#34;&#34;
 
 import json
+import time
 
 from utils import logger, request
 from elk import ingest
@@ -86,6 +87,7 @@ def article_download(url, title, slug, date, author):
         date (string): publication date
         author (string[]): list of authors
     &#34;&#34;&#34;    
+    time.sleep(5)
     response, logInfo = request.get(url, timeout = 120)
     if response.status_code == 200:
         logger.debug(logInfo+&#39; - SUCCESS!&#39;)
@@ -119,7 +121,23 @@ def all_articles_download(symbol, startPage=1, endPage=10):
         slug = url[&#39;slug&#39;]
         date = url[&#39;date&#39;]
         author = url[&#39;author&#39;]
-        article_download(href=href, title=title, slug=slug, date=date, author=author)</code></pre>
+        article_download(href=href, title=title, slug=slug, date=date, author=author)
+
+def job():
+    &#34;&#34;&#34; Scrape job. 10000 articles for &#39;btc&#39; 2014-2021, ~15 hours of scraping
+    &#34;&#34;&#34;    
+    all_articles_download(symbol=&#34;btc&#34;, startPage=1, endPage=500)
+    all_articles_download(symbol=&#34;ethereum&#34;, startPage=1, endPage=600)
+    all_articles_download(symbol=&#34;litecoin&#34;, startPage=1, endPage=125)
+    all_articles_download(symbol=&#34;xrp&#34;, startPage=1, endPage=110)
+    all_articles_download(symbol=&#34;tether&#34;, startPage=1, endPage=79)
+    all_articles_download(symbol=&#34;uniswap&#34;, startPage=1, endPage=43)
+    all_articles_download(symbol=&#34;chainlink&#34;, startPage=1, endPage=34)
+    all_articles_download(symbol=&#34;cardano&#34;, startPage=1, endPage=25)
+    all_articles_download(symbol=&#34;polkadot&#34;, startPage=1, endPage=23)
+    all_articles_download(symbol=&#34;xlm&#34;, startPage=1, endPage=19)
+    all_articles_download(symbol=&#34;bnb&#34;, startPage=1, endPage=17)
+    all_articles_download(symbol=&#34;trx&#34;, startPage=1, endPage=11)</code></pre>
 </details>
 </section>
 <section>
@@ -197,6 +215,7 @@ def all_articles_download(symbol, startPage=1, endPage=10):
         date (string): publication date
         author (string[]): list of authors
     &#34;&#34;&#34;    
+    time.sleep(5)
     response, logInfo = request.get(url, timeout = 120)
     if response.status_code == 200:
         logger.debug(logInfo+&#39; - SUCCESS!&#39;)
@@ -214,6 +233,32 @@ def all_articles_download(symbol, startPage=1, endPage=10):
     else:
         logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
         logger.info(&#34;Skipping article: &#39;&#34;+title+&#34;&#39; because request failed...&#34;)</code></pre>
+</details>
+</dd>
+<dt id="src.scrape.coindesk.job"><code class="name flex">
+<span>def <span class="ident">job</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Scrape job. 10000 articles for 'btc' 2014-2021, ~15 hours of scraping</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def job():
+    &#34;&#34;&#34; Scrape job. 10000 articles for &#39;btc&#39; 2014-2021, ~15 hours of scraping
+    &#34;&#34;&#34;    
+    all_articles_download(symbol=&#34;btc&#34;, startPage=1, endPage=500)
+    all_articles_download(symbol=&#34;ethereum&#34;, startPage=1, endPage=600)
+    all_articles_download(symbol=&#34;litecoin&#34;, startPage=1, endPage=125)
+    all_articles_download(symbol=&#34;xrp&#34;, startPage=1, endPage=110)
+    all_articles_download(symbol=&#34;tether&#34;, startPage=1, endPage=79)
+    all_articles_download(symbol=&#34;uniswap&#34;, startPage=1, endPage=43)
+    all_articles_download(symbol=&#34;chainlink&#34;, startPage=1, endPage=34)
+    all_articles_download(symbol=&#34;cardano&#34;, startPage=1, endPage=25)
+    all_articles_download(symbol=&#34;polkadot&#34;, startPage=1, endPage=23)
+    all_articles_download(symbol=&#34;xlm&#34;, startPage=1, endPage=19)
+    all_articles_download(symbol=&#34;bnb&#34;, startPage=1, endPage=17)
+    all_articles_download(symbol=&#34;trx&#34;, startPage=1, endPage=11)</code></pre>
 </details>
 </dd>
 <dt id="src.scrape.coindesk.news_list_download"><code class="name flex">
@@ -297,6 +342,7 @@ def all_articles_download(symbol, startPage=1, endPage=10):
 <ul class="">
 <li><code><a title="src.scrape.coindesk.all_articles_download" href="#src.scrape.coindesk.all_articles_download">all_articles_download</a></code></li>
 <li><code><a title="src.scrape.coindesk.article_download" href="#src.scrape.coindesk.article_download">article_download</a></code></li>
+<li><code><a title="src.scrape.coindesk.job" href="#src.scrape.coindesk.job">job</a></code></li>
 <li><code><a title="src.scrape.coindesk.news_list_download" href="#src.scrape.coindesk.news_list_download">news_list_download</a></code></li>
 </ul>
 </li>

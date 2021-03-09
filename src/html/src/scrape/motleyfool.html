@@ -34,6 +34,7 @@ Motley Fool provides transcripts of the most recent earnings calls for the compa
 &#34;&#34;&#34;
 
 from bs4 import BeautifulSoup
+import time
 
 from utils import logger, request
 from elk import ingest
@@ -88,6 +89,9 @@ def ec_transcript_download(href, title):
     &#34;&#34;&#34;
     baseUrl = &#34;https://www.fool.com&#34;
     url = baseUrl + href
+        
+    time.sleep(3)
+    
     response, logInfo = request.get(url=url, timeout = 120)
     if response.status_code == 200:
         logger.debug(logInfo+&#39; - SUCCESS!&#39;)
@@ -203,7 +207,15 @@ def all_transcripts_download(startPage=1, endPage=10):
         page = page + 1
         href = url[&#39;href&#39;]
         title = url[&#39;title&#39;]
-        ec_transcript_download(href=href, title=title)</code></pre>
+        ec_transcript_download(href=href, title=title)
+
+def job():
+    &#34;&#34;&#34; Scraping job. 26000 articles, sleep 3 seconds after each article scrape, ~24 hours
+    &#34;&#34;&#34;    
+    for i in range(65):
+        print(&#34;scraping from &#34;+str(i*20+1)+&#34; to &#34;+str((i+1)*20))
+        all_transcripts_download(startPage=(i*20+1),endPage=((i+1)*20))
+        print(str(i*20+1)+&#34; to &#34;+str((i+1)*20)+&#34; done!&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -338,6 +350,9 @@ def all_transcripts_download(startPage=1, endPage=10):
     &#34;&#34;&#34;
     baseUrl = &#34;https://www.fool.com&#34;
     url = baseUrl + href
+        
+    time.sleep(3)
+    
     response, logInfo = request.get(url=url, timeout = 120)
     if response.status_code == 200:
         logger.debug(logInfo+&#39; - SUCCESS!&#39;)
@@ -439,6 +454,24 @@ def all_transcripts_download(startPage=1, endPage=10):
         logger.info(&#34;Skipping article: &#39;&#34;+title+&#34;&#39; because request failed...&#34;)</code></pre>
 </details>
 </dd>
+<dt id="src.scrape.motleyfool.job"><code class="name flex">
+<span>def <span class="ident">job</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Scraping job. 26000 articles, sleep 3 seconds after each article scrape, ~24 hours</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def job():
+    &#34;&#34;&#34; Scraping job. 26000 articles, sleep 3 seconds after each article scrape, ~24 hours
+    &#34;&#34;&#34;    
+    for i in range(65):
+        print(&#34;scraping from &#34;+str(i*20+1)+&#34; to &#34;+str((i+1)*20))
+        all_transcripts_download(startPage=(i*20+1),endPage=((i+1)*20))
+        print(str(i*20+1)+&#34; to &#34;+str((i+1)*20)+&#34; done!&#34;)</code></pre>
+</details>
+</dd>
 </dl>
 </section>
 <section>
@@ -460,6 +493,7 @@ def all_transcripts_download(startPage=1, endPage=10):
 <li><code><a title="src.scrape.motleyfool.all_transcripts_download" href="#src.scrape.motleyfool.all_transcripts_download">all_transcripts_download</a></code></li>
 <li><code><a title="src.scrape.motleyfool.ec_list_download" href="#src.scrape.motleyfool.ec_list_download">ec_list_download</a></code></li>
 <li><code><a title="src.scrape.motleyfool.ec_transcript_download" href="#src.scrape.motleyfool.ec_transcript_download">ec_transcript_download</a></code></li>
+<li><code><a title="src.scrape.motleyfool.job" href="#src.scrape.motleyfool.job">job</a></code></li>
 </ul>
 </li>
 </ul>

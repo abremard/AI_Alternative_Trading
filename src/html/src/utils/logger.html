@@ -72,7 +72,9 @@ def log_config():
                 stdout=sys.stdout)
     p.communicate()
     logDay = datetime.datetime.now().strftime(&#39;%d-%m-%Y&#39;)
-    logging.basicConfig(filename=&#39;log/&#39;+logDay+&#39;.log&#39;, filemode=&#39;a&#39;, format=&#39;%(asctime)s - %(levelname)s - %(message)s&#39;,  datefmt=&#39;%d-%b-%y %H:%M:%S&#39;, level=logging.DEBUG)</code></pre>
+    logging.basicConfig(filename=&#39;log/&#39;+logDay+&#39;.log&#39;, filemode=&#39;a&#39;, format=&#39;%(asctime)s - %(levelname)s - %(message)s&#39;,  datefmt=&#39;%d-%b-%y %H:%M:%S&#39;, level=logging.DEBUG)
+
+log_config()</code></pre>
 </details>
 </section>
 <section>

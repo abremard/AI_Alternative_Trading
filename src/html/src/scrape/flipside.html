@@ -32,6 +32,7 @@ Flipside makes available its asset rating score, FCAS, in addition to several ot
 &#34;&#34;&#34;
 
 import json
+import time
 
 from utils import logger, request
 from elk import ingest
@@ -51,7 +52,9 @@ def api_req(url, rtype, formData=None):
 
     Returns:
         requests.Response Object
-    &#34;&#34;&#34;    
+    &#34;&#34;&#34;
+    # Sleeps for 5 seconds
+    time.sleep(5)
     finalUrl = baseUrl + url + &#34;?api_key=&#34; + api_key
     formData = json.dumps(formData)
     if rtype == &#34;POST&#34;:
@@ -131,7 +134,19 @@ def metrics_download(projects, metrics, start_timestamp, end_timestamp, period =
         if project_id != &#34;none&#34;:
             project_ids.append(project_id)
             i = i + 1
-    timeseries_metrics(project_ids=project_ids, metrics=metrics, start_timestamp=start_timestamp, end_timestamp=end_timestamp, period=period)</code></pre>
+    timeseries_metrics(project_ids=project_ids, metrics=metrics, start_timestamp=start_timestamp, end_timestamp=end_timestamp, period=period)
+
+def job(projects):
+    &#34;&#34;&#34; Scrape job
+
+    Args:
+        projects (str[]): list of crypto projects, for example [&#34;BTC&#34;]
+    &#34;&#34;&#34;    
+    metrics = [&#39;dev&#39;, &#39;fcas&#39;, &#39;market-maturity&#39;, &#39;utility&#39;]
+    start_timestamp = &#34;2019-01-01T00:00:00Z&#34;
+    end_timestamp = &#34;2021-01-01T00:00:00Z&#34;
+    period = &#34;day&#34;
+    metrics_download(projects=projects, metrics=metrics, start_timestamp=start_timestamp, end_timestamp=end_timestamp, period=period)</code></pre>
 </details>
 </section>
 <section>
@@ -171,7 +186,9 @@ def metrics_download(projects, metrics, start_timestamp, end_timestamp, period =
 
     Returns:
         requests.Response Object
-    &#34;&#34;&#34;    
+    &#34;&#34;&#34;
+    # Sleeps for 5 seconds
+    time.sleep(5)
     finalUrl = baseUrl + url + &#34;?api_key=&#34; + api_key
     formData = json.dumps(formData)
     if rtype == &#34;POST&#34;:
@@ -205,6 +222,33 @@ def metrics_download(projects, metrics, start_timestamp, end_timestamp, period =
         logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
         logger.info(&#34;Skipping &#34;+symbol+&#34; because request failed...&#34;)
     return id</code></pre>
+</details>
+</dd>
+<dt id="src.scrape.flipside.job"><code class="name flex">
+<span>def <span class="ident">job</span></span>(<span>projects)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Scrape job</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>projects</code></strong> :&ensp;<code>str[]</code></dt>
+<dd>list of crypto projects, for example ["BTC"]</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def job(projects):
+    &#34;&#34;&#34; Scrape job
+
+    Args:
+        projects (str[]): list of crypto projects, for example [&#34;BTC&#34;]
+    &#34;&#34;&#34;    
+    metrics = [&#39;dev&#39;, &#39;fcas&#39;, &#39;market-maturity&#39;, &#39;utility&#39;]
+    start_timestamp = &#34;2019-01-01T00:00:00Z&#34;
+    end_timestamp = &#34;2021-01-01T00:00:00Z&#34;
+    period = &#34;day&#34;
+    metrics_download(projects=projects, metrics=metrics, start_timestamp=start_timestamp, end_timestamp=end_timestamp, period=period)</code></pre>
 </details>
 </dd>
 <dt id="src.scrape.flipside.metrics_download"><code class="name flex">
@@ -334,6 +378,7 @@ Utility Score: A distilled representation of non-exchange related economic activ
 <ul class="">
 <li><code><a title="src.scrape.flipside.api_req" href="#src.scrape.flipside.api_req">api_req</a></code></li>
 <li><code><a title="src.scrape.flipside.get_projects" href="#src.scrape.flipside.get_projects">get_projects</a></code></li>
+<li><code><a title="src.scrape.flipside.job" href="#src.scrape.flipside.job">job</a></code></li>
 <li><code><a title="src.scrape.flipside.metrics_download" href="#src.scrape.flipside.metrics_download">metrics_download</a></code></li>
 <li><code><a title="src.scrape.flipside.timeseries_metrics" href="#src.scrape.flipside.timeseries_metrics">timeseries_metrics</a></code></li>
 </ul>

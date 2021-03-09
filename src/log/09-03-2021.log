@@ -1,0 +1,52 @@
+09-Mar-21 16:57:18 - DEBUG - Starting new HTTPS connection (1): www.alphavantage.co:443
+09-Mar-21 16:57:20 - DEBUG - https://www.alphavantage.co:443 "GET /query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=full&datatype=json&apikey=M1V7YKMWNYU2J3NC HTTP/1.1" 200 None
+09-Mar-21 16:57:20 - DEBUG - SUB TASK - GET - https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=full&datatype=json&apikey=M1V7YKMWNYU2J3NC - SUCCESS!
+09-Mar-21 16:57:20 - DEBUG - Starting new HTTP connection (1): localhost:9200
+09-Mar-21 16:59:52 - DEBUG - Starting new HTTPS connection (1): www.alphavantage.co:443
+09-Mar-21 16:59:54 - DEBUG - https://www.alphavantage.co:443 "GET /query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=full&datatype=json&apikey=M1V7YKMWNYU2J3NC HTTP/1.1" 200 None
+09-Mar-21 16:59:56 - DEBUG - SUB TASK - GET - https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=full&datatype=json&apikey=M1V7YKMWNYU2J3NC - SUCCESS!
+09-Mar-21 16:59:56 - DEBUG - Starting new HTTP connection (1): localhost:9200
+09-Mar-21 17:00:59 - DEBUG - Starting new HTTPS connection (1): www.alphavantage.co:443
+09-Mar-21 17:01:01 - DEBUG - https://www.alphavantage.co:443 "GET /query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=full&datatype=json&apikey=M1V7YKMWNYU2J3NC HTTP/1.1" 200 None
+09-Mar-21 17:01:01 - DEBUG - SUB TASK - GET - https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=full&datatype=json&apikey=M1V7YKMWNYU2J3NC - SUCCESS!
+09-Mar-21 17:01:01 - DEBUG - Starting new HTTP connection (1): localhost:9200
+09-Mar-21 17:02:14 - DEBUG - Starting new HTTPS connection (1): www.alphavantage.co:443
+09-Mar-21 17:02:16 - DEBUG - https://www.alphavantage.co:443 "GET /query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=full&datatype=json&apikey=M1V7YKMWNYU2J3NC HTTP/1.1" 200 None
+09-Mar-21 17:02:16 - DEBUG - SUB TASK - GET - https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=full&datatype=json&apikey=M1V7YKMWNYU2J3NC - SUCCESS!
+09-Mar-21 17:02:16 - DEBUG - Starting new HTTP connection (1): localhost:9200
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.abbr".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.abbr.AbbrExtension".
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.attr_list".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.attr_list.AttrListExtension".
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.def_list".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.def_list.DefListExtension".
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.fenced_code".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.footnotes".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.footnotes.FootnoteExtension".
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.tables".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.tables.TableExtension".
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.admonition".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.admonition.AdmonitionExtension".
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.smarty".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.smarty.SmartyExtension".
+09-Mar-21 17:05:54 - DEBUG - Successfully imported extension module "markdown.extensions.toc".
+09-Mar-21 17:05:54 - DEBUG - Successfully loaded extension "markdown.extensions.toc.TocExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.abbr".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.abbr.AbbrExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.attr_list".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.attr_list.AttrListExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.def_list".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.def_list.DefListExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.fenced_code".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.fenced_code.FencedCodeExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.footnotes".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.footnotes.FootnoteExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.tables".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.tables.TableExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.admonition".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.admonition.AdmonitionExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.smarty".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.smarty.SmartyExtension".
+09-Mar-21 17:06:13 - DEBUG - Successfully imported extension module "markdown.extensions.toc".
+09-Mar-21 17:06:13 - DEBUG - Successfully loaded extension "markdown.extensions.toc.TocExtension".

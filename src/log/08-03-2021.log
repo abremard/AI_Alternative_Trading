@@ -1,0 +1,10 @@
+08-Mar-21 20:33:57 - DEBUG - Starting new HTTPS connection (1): www.coindesk.com:443
+08-Mar-21 20:33:58 - DEBUG - https://www.coindesk.com:443 "GET /wp-json/v1/search?keyword=btc&page=1 HTTP/1.1" 200 None
+08-Mar-21 20:33:58 - DEBUG - SUB TASK - GET - https://www.coindesk.com/wp-json/v1/search?keyword=btc&page=1 - SUCCESS!
+08-Mar-21 20:33:58 - DEBUG - Starting new HTTPS connection (1): www.coindesk.com:443
+08-Mar-21 20:35:31 - DEBUG - Starting new HTTPS connection (1): www.coindesk.com:443
+08-Mar-21 20:35:32 - DEBUG - https://www.coindesk.com:443 "GET /wp-json/v1/search?keyword=btc&page=1 HTTP/1.1" 200 None
+08-Mar-21 20:35:32 - DEBUG - SUB TASK - GET - https://www.coindesk.com/wp-json/v1/search?keyword=btc&page=1 - SUCCESS!
+08-Mar-21 20:35:32 - DEBUG - Starting new HTTPS connection (1): www.coindesk.com:443
+08-Mar-21 20:35:32 - DEBUG - https://www.coindesk.com:443 "GET /wp-json/v1/search?keyword=btc&page=2 HTTP/1.1" 200 None
+08-Mar-21 20:35:32 - DEBUG - SUB TASK - GET - https://www.coindesk.com/wp-json/v1/search?keyword=btc&page=2 - SUCCESS!

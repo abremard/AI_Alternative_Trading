@@ -44,3 +44,5 @@ def log_config():
     p.communicate()
     logDay = datetime.datetime.now().strftime('%d-%m-%Y')
     logging.basicConfig(filename='log/'+logDay+'.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s',  datefmt='%d-%b-%y %H:%M:%S', level=logging.DEBUG)
+
+log_config()

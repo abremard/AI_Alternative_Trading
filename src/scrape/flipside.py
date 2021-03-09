@@ -3,6 +3,7 @@ Flipside makes available its asset rating score, FCAS, in addition to several ot
 """
 
 import json
+import time
 
 from utils import logger, request
 from elk import ingest
@@ -22,7 +23,9 @@ def api_req(url, rtype, formData=None):
 
     Returns:
         requests.Response Object
-    """    
+    """
+    # Sleeps for 5 seconds
+    time.sleep(5)
     finalUrl = baseUrl + url + "?api_key=" + api_key
     formData = json.dumps(formData)
     if rtype == "POST":
@@ -103,3 +106,15 @@ def metrics_download(projects, metrics, start_timestamp, end_timestamp, period =
             project_ids.append(project_id)
             i = i + 1
     timeseries_metrics(project_ids=project_ids, metrics=metrics, start_timestamp=start_timestamp, end_timestamp=end_timestamp, period=period)
+
+def job(projects):
+    """ Scrape job
+
+    Args:
+        projects (str[]): list of crypto projects, for example ["BTC"]
+    """    
+    metrics = ['dev', 'fcas', 'market-maturity', 'utility']
+    start_timestamp = "2019-01-01T00:00:00Z"
+    end_timestamp = "2021-01-01T00:00:00Z"
+    period = "day"
+    metrics_download(projects=projects, metrics=metrics, start_timestamp=start_timestamp, end_timestamp=end_timestamp, period=period)

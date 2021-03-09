@@ -3,6 +3,7 @@ Motley Fool provides transcripts of the most recent earnings calls for the compa
 """
 
 from bs4 import BeautifulSoup
+import time
 
 from utils import logger, request
 from elk import ingest
@@ -57,6 +58,9 @@ def ec_transcript_download(href, title):
     """
     baseUrl = "https://www.fool.com"
     url = baseUrl + href
+        
+    time.sleep(3)
+    
     response, logInfo = request.get(url=url, timeout = 120)
     if response.status_code == 200:
         logger.debug(logInfo+' - SUCCESS!')
@@ -173,3 +177,11 @@ def all_transcripts_download(startPage=1, endPage=10):
         href = url['href']
         title = url['title']
         ec_transcript_download(href=href, title=title)
+
+def job():
+    """ Scraping job. 26000 articles, sleep 3 seconds after each article scrape, ~24 hours
+    """    
+    for i in range(65):
+        print("scraping from "+str(i*20+1)+" to "+str((i+1)*20))
+        all_transcripts_download(startPage=(i*20+1),endPage=((i+1)*20))
+        print(str(i*20+1)+" to "+str((i+1)*20)+" done!")

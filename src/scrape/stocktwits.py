@@ -4,6 +4,7 @@ Stocktwits API wrapper. Stocktwits is the largest social network for investors a
 
 import requests
 import json
+import time
 
 from utils import logger, request
 from elk import ingest
@@ -32,6 +33,10 @@ def get_stream(symbol, params=""):
         for message in messages:
             # Ingest into Elastic Search
             ingest.ingest(post_url=elasticPath, payload=message)
+    elif response.status_code == 429:
+        time.sleep(600)
+        logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.info("Skipping symbol "+symbol+" with max value "+params.split("=")[1]+" because request failed...")    
     else:
         logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
         logger.info("Skipping symbol "+symbol+" with max value "+params.split("=")[1]+" because request failed...")
@@ -54,3 +59,16 @@ def extract(symbol, nb = 10, params=None):
         next = cursor["max"]
         params = "?max="+str(next)
         cursor = get_stream(symbol=symbol, params=params)
+    return next
+
+def job(symbol):
+    """ Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.
+
+    Args:
+        symbol (str): stock or crypto symbol, for example "AAPL"
+    """    
+    next = extract(symbol=symbol, nb=200,)
+    time.sleep(3600)
+    while True:
+        next = extract(symbol=symbol, nb=200, params=next)
+        time.sleep(3600)

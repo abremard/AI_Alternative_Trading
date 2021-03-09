@@ -3,6 +3,7 @@ CoinDesk is the media platform for the next generation of investors exploring ho
 """
 
 import json
+import time
 
 from utils import logger, request
 from elk import ingest
@@ -57,6 +58,7 @@ def article_download(url, title, slug, date, author):
         date (string): publication date
         author (string[]): list of authors
     """    
+    time.sleep(5)
     response, logInfo = request.get(url, timeout = 120)
     if response.status_code == 200:
         logger.debug(logInfo+' - SUCCESS!')
@@ -91,3 +93,19 @@ def all_articles_download(symbol, startPage=1, endPage=10):
         date = url['date']
         author = url['author']
         article_download(href=href, title=title, slug=slug, date=date, author=author)
+
+def job():
+    """ Scrape job. 10000 articles for 'btc' 2014-2021, ~15 hours of scraping
+    """    
+    all_articles_download(symbol="btc", startPage=1, endPage=500)
+    all_articles_download(symbol="ethereum", startPage=1, endPage=600)
+    all_articles_download(symbol="litecoin", startPage=1, endPage=125)
+    all_articles_download(symbol="xrp", startPage=1, endPage=110)
+    all_articles_download(symbol="tether", startPage=1, endPage=79)
+    all_articles_download(symbol="uniswap", startPage=1, endPage=43)
+    all_articles_download(symbol="chainlink", startPage=1, endPage=34)
+    all_articles_download(symbol="cardano", startPage=1, endPage=25)
+    all_articles_download(symbol="polkadot", startPage=1, endPage=23)
+    all_articles_download(symbol="xlm", startPage=1, endPage=19)
+    all_articles_download(symbol="bnb", startPage=1, endPage=17)
+    all_articles_download(symbol="trx", startPage=1, endPage=11)

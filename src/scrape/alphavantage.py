@@ -213,15 +213,24 @@ def crypto_daily(symbols, market="USD"):
         else:
             logger.info("Skipping "+symbol+" because request failed...")
 
+def job(symbols):
+    """ Scrape job for stocks. Gets daily prices + SEC informations
 
-"""
-def crypto_rating(symbols):
-    This is for real-time data, for historical data use flipside API wrapper instead
-    for symbol in symbols:
-        params = {
-            "function": "CRYPTO_RATING",
-            "symbol": symbol,
-        }
-        outputPath = "./data/crypto/rating/"+symbol+".json"
-        api_req(params=params)
-"""
+    Args:
+        symbols (str[]): list of stock symbols to extract data from
+    """    
+    # ------------- TIME SERIES --------------
+    daily_download(symbols=symbols)
+    # ------------- SEC FILINGS --------------
+    income_statement_download(symbols=symbols)
+    balance_sheet_download(symbols=symbols)
+    cash_flow_download(symbols=symbols)
+    earnings_download(symbols=symbols)
+
+def crypto_job(symbols):
+    """ Scrape job for crypto. Gets daily prices
+
+    Args:
+        symbols (str[]): list of crypto symbols to extract data from
+    """    
+    crypto_daily(symbols=symbols)

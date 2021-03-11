@@ -1,9 +1,12 @@
 """ Python coindesk scraping job
 """
 
-# import time
+import time
 
-# from scrape import coindesk
+import sys
+sys.path.insert(0,"C:\\Users\\Alexandre\\Documents\\Projects\\Trading\\AI_Alternative_Trading\\src")
+
+from scrape import coindesk
 
 # start = time.time()
 # coindesk.job()

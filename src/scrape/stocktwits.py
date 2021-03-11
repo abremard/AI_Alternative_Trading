@@ -26,7 +26,8 @@ def get_stream(symbol, params=""):
     url = "https://api.stocktwits.com/api/2/streams/symbol/ric/"+symbol+".json"+params
     response, logInfo = request.get(url=url, timeout=120)
     if response.status_code == 200:
-        logger.debug(logInfo+' - max value is '+params.split("=")[1]+' - SUCCESS!')
+        if params != "":
+            logger.debug(logInfo+' - max value is '+params.split("=")[1]+' - SUCCESS!')
         responseDict = json.loads(response.content)
         cursor = responseDict["cursor"]
         messages = responseDict["messages"]
@@ -35,10 +36,10 @@ def get_stream(symbol, params=""):
             ingest.ingest(post_url=elasticPath, payload=message)
     elif response.status_code == 429:
         time.sleep(600)
-        logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
         logger.info("Skipping symbol "+symbol+" with max value "+params.split("=")[1]+" because request failed...")    
     else:
-        logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
         logger.info("Skipping symbol "+symbol+" with max value "+params.split("=")[1]+" because request failed...")
     return cursor
 
@@ -58,7 +59,10 @@ def extract(symbol, nb = 10, params=None):
     for i in range(nb):
         next = cursor["max"]
         params = "?max="+str(next)
-        cursor = get_stream(symbol=symbol, params=params)
+        try:
+            cursor = get_stream(symbol=symbol, params=params)
+        except:
+            logger.info("Skipping symbol "+symbol+" because request failed...")
     return next
 
 def job(symbol):
@@ -67,8 +71,8 @@ def job(symbol):
     Args:
         symbol (str): stock or crypto symbol, for example "AAPL"
     """    
-    next = extract(symbol=symbol, nb=200,)
-    time.sleep(3600)
+    next = extract(symbol=symbol, nb=190)
+    time.sleep(3660)
     while True:
         next = extract(symbol=symbol, nb=200, params=next)
-        time.sleep(3600)
+        time.sleep(3660)

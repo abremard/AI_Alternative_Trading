@@ -46,7 +46,7 @@ def get_projects(symbol):
                 id = project["id"]
                 break
     else:
-        logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
         logger.info("Skipping "+symbol+" because request failed...")
     return id
 
@@ -85,7 +85,7 @@ def timeseries_metrics(project_ids, metrics, start_timestamp, end_timestamp, per
                     daily["metric"] = metricName
                     ingest.ingest(post_url=elasticPath, payload=daily)
     else:
-        logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
         logger.info(f"Skipping {str(project_ids).encode(encoding='UTF-8',errors='strict')} because request failed...")
 
 def metrics_download(projects, metrics, start_timestamp, end_timestamp, period = "day"):

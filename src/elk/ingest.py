@@ -4,6 +4,7 @@ Ingest payload data to an elastic search index
 
 import json
 import requests
+import time
 
 from utils import logger
 
@@ -19,8 +20,15 @@ def ingest(post_url, payload):
         'cache-control': "no-cache"
     }
     payload = json.dumps(payload)
-    response = requests.request("POST", post_url, data=payload, headers=headers)
+    for attempt in range(150):
+        try:
+            response = requests.request("POST", post_url, data=payload, headers=headers)
+        except:
+            logger.info(f'SUB TASK - POST - {post_url} - FAILED, retrying...')
+            time.sleep(2)
+        else:
+            break
     if(response.status_code==201):
         logger.debug(f'SUB TASK - POST - {post_url} - SUCCESS!')
     else:
-        logger.error(f'SUB TASK - POST - {post_url} - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.error(f'SUB TASK - POST - {post_url} - FAILED with error code '+str(response.status_code)+' and message '+response.text)

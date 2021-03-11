@@ -39,7 +39,7 @@ def ec_list_download(startPage=1, endPage=10):
                     "title": title
                 })
         else:
-            logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+            logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
             logger.info("Skipping page "+page+" because request failed...")
     return urlList
 
@@ -129,7 +129,7 @@ def ec_transcript_download(href, title):
         # parse meta-data
         companyName = articleSoup.find_all("p")[1].find_all("strong")[0].text
         date = articleSoup.find(id="date").text
-        time = articleSoup.find(id="time").text
+        artTime = articleSoup.find(id="time").text
         duration = response.text.split("Duration: ")[1].split("</strong>")[0]
         # parse call participants
         participantsStr = response.text.split("Call participants:")[1].split("<p><a href=")[0].split("</h2>")[1]
@@ -151,14 +151,14 @@ def ec_transcript_download(href, title):
             "company": companyName,
             "title": title,
             "date": date,
-            "time": time,
+            "time": artTime,
             "duration": duration,
             "participants": participants
         }
         # Ingest into Elastic Search
         ingest.ingest(post_url=elasticPath, payload=finalDict)
     else:
-        logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
         logger.info("Skipping article: '"+title+"' because request failed...")
 
 def all_transcripts_download(startPage=1, endPage=10):
@@ -176,12 +176,15 @@ def all_transcripts_download(startPage=1, endPage=10):
         page = page + 1
         href = url['href']
         title = url['title']
-        ec_transcript_download(href=href, title=title)
+        try:
+            ec_transcript_download(href=href, title=title)
+        except:
+            logger.info("Skipping article: '"+title+"' because request failed...")
 
 def job():
     """ Scraping job. 26000 articles, sleep 3 seconds after each article scrape, ~24 hours
     """    
-    for i in range(65):
-        print("scraping from "+str(i*20+1)+" to "+str((i+1)*20))
-        all_transcripts_download(startPage=(i*20+1),endPage=((i+1)*20))
-        print(str(i*20+1)+" to "+str((i+1)*20)+" done!")
+    for i in range(8):
+        print("scraping from "+str(i*20+1160)+" to "+str((i+1)*20+1160))
+        all_transcripts_download(startPage=(i*20+1160),endPage=((i+1)*20+1160))
+        print(str(i*20+1160)+" to "+str((i+1)*20+1160)+" done!")

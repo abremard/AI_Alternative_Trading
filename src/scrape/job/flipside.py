@@ -1,9 +1,12 @@
 """ Python flipside scraping job
 """
 
-# import time
+import time
 
-# from scrape import flipside
+import sys
+sys.path.insert(0,"C:\\Users\\Alexandre\\Documents\\Projects\\Trading\\AI_Alternative_Trading\\src")
+
+from scrape import flipside
 
 # start = time.time()
 # flipside.job(projects=["BTC", "ETH", "LTC", "XRP", "USDT", "UNI", 'LINK', "ADA", "DOT", "XLM", "BNB", "TRX"])

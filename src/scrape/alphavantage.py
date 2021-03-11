@@ -32,7 +32,7 @@ def api_req(params):
     if response.status_code == 200:
         logger.debug(logInfo+' - SUCCESS!')
     else:
-        logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
     return response
 
 
@@ -114,7 +114,6 @@ def balance_sheet_download(symbols):
             "function": "BALANCE_SHEET",
             "symbol": symbol,
         }
-        outputPath = "./data/fundamental/balance-sheet/"+symbol+".json"
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -141,7 +140,6 @@ def cash_flow_download(symbols):
             "function": "CASH_FLOW",
             "symbol": symbol,
         }
-        outputPath = "./data/fundamental/cash-flow/"+symbol+".json"
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -167,7 +165,6 @@ def earnings_download(symbols):
             "function": "EARNINGS",
             "symbol": symbol,
         }
-        outputPath = "./data/fundamental/earnings/"+symbol+".json"
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -193,7 +190,6 @@ def crypto_daily(symbols, market="USD"):
             "symbol": symbol,
             "market": market
         }
-        outputPath = "./data/crypto/daily/"+symbol+".json"
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)

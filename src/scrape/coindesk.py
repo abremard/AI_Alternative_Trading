@@ -6,7 +6,7 @@ import json
 import time
 
 from utils import logger, request
-from elk import ingest
+from elk import ingest, setup
 
 # Elastic search index
 elasticPath = "http://localhost:9200/crypto_news/ingest"
@@ -44,11 +44,11 @@ def news_list_download(symbol, startPage, endPage):
                     "author": author
                 })
         else:
-            logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+            logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
             logger.info("Skipping page "+page+" because request failed...")
     return urlList
 
-def article_download(url, title, slug, date, author):
+def article_download(url, title, slug, date, author, symbol):
     """ Download a single news article given its url
 
     Args:
@@ -69,12 +69,13 @@ def article_download(url, title, slug, date, author):
             "slug": slug,
             "content": article,
             "date": date,
-            "author": author
+            "author": author,
+            "symbol": symbol
         }
         # Ingest into Elastic Search
         ingest.ingest(post_url=elasticPath, payload=payload)
     else:
-        logger.error(logInfo+' - FAILED with error code '+response.status_code+' and message '+response.text)
+        logger.error(logInfo+' - FAILED with error code '+str(response.status_code)+' and message '+response.text)
         logger.info("Skipping article: '"+title+"' because request failed...")
 
 def all_articles_download(symbol, startPage=1, endPage=10):
@@ -92,11 +93,14 @@ def all_articles_download(symbol, startPage=1, endPage=10):
         slug = url['slug']
         date = url['date']
         author = url['author']
-        article_download(href=href, title=title, slug=slug, date=date, author=author)
+        try:
+            article_download(url=href, title=title, slug=slug, date=date, author=author, symbol=symbol)
+        except:
+            logger.info("Skipping article: '"+title+"' because request failed...")
 
 def job():
     """ Scrape job. 10000 articles for 'btc' 2014-2021, ~15 hours of scraping
-    """    
+    """
     all_articles_download(symbol="btc", startPage=1, endPage=500)
     all_articles_download(symbol="ethereum", startPage=1, endPage=600)
     all_articles_download(symbol="litecoin", startPage=1, endPage=125)

@@ -1,9 +1,12 @@
 """ Python motley fool scraping job
 """
 
-# import time
+import time
 
-# from scrape import motleyfool as mfool
+import sys
+sys.path.insert(0,"C:\\Users\\Alexandre\\Documents\\Projects\\Trading\\AI_Alternative_Trading\\src")
+
+from scrape import motleyfool as mfool
 
 # start = time.time()
 # mfool.job()

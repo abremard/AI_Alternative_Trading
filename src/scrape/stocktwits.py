@@ -9,7 +9,7 @@ import time
 from utils import logger, request
 from elk import ingest
 
-import config
+from . import config
 
 # Elastic search index
 elasticPath = config.stwitsConfig["elasticPath"]

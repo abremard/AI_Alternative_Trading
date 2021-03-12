@@ -3,8 +3,11 @@
 
 import time
 
+from pathlib import Path
+parent = Path(__file__).resolve().parent
+srcPath = parent.parent.parent
 import sys
-sys.path.insert(0,"C:\\Users\\Alexandre\\Documents\\Projects\\Trading\\AI_Alternative_Trading\\src")
+sys.path.insert(0, srcPath)
 
 from scrape import alphavantage as alphav
 

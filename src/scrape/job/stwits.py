@@ -3,11 +3,13 @@
 
 import time
 
-import config
-srcPath = config.stwitsConfig['srcPath'].replace("\\", "\\\\")
-
+from pathlib import Path
+parent = Path(__file__).resolve().parent
+srcPath = parent.parent.parent
 import sys
 sys.path.insert(0, srcPath)
+
+import config
 
 from scrape import stocktwits as stwits
 

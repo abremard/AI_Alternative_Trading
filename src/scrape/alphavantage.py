@@ -216,7 +216,7 @@ def job(symbols):
         symbols (str[]): list of stock symbols to extract data from
     """    
     # ------------- TIME SERIES --------------
-    daily_download(symbols=symbols)
+    # daily_download(symbols=symbols)
     # ------------- SEC FILINGS --------------
     income_statement_download(symbols=symbols)
     balance_sheet_download(symbols=symbols)

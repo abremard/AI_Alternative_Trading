@@ -9,8 +9,10 @@ import time
 from utils import logger, request
 from elk import ingest
 
+import config
+
 # Elastic search index
-elasticPath = "http://localhost:9200/stocktwits/ingest"
+elasticPath = config.stwitsConfig["elasticPath"]
 
 def get_stream(symbol, params=""):
     """ Returns 30 messages given a range (default to the 30 most recent messages) for the specified symbol so we need to run multiple requests by setting max value down to the oldest message in the 30 messages (given by the cursor), for example with max=298005055 for AAPL, next max is 297989058
@@ -64,15 +66,3 @@ def extract(symbol, nb = 10, params=None):
         except:
             logger.info("Skipping symbol "+symbol+" because request failed...")
     return next
-
-def job(symbol):
-    """ Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.
-
-    Args:
-        symbol (str): stock or crypto symbol, for example "AAPL"
-    """    
-    next = extract(symbol=symbol, nb=190)
-    time.sleep(3660)
-    while True:
-        next = extract(symbol=symbol, nb=200, params=next)
-        time.sleep(3660)

@@ -33,6 +33,19 @@
 stwitsConfig = dict(
     symbol = &#39;NFLX&#39;,
     elasticPath = &#34;http://localhost:9200/stocktwits/ingest&#34;,
+)
+# Below are configutations for alphavantage job
+alphavConfig = dict(
+    market = &#39;stock&#39;, # or &#39;crypto&#39;
+    symbols = [&#34;IBM&#34;, &#34;AAPL&#34;, &#34;AMGN&#34;, &#34;GOOG&#34;, &#34;AMZN&#34;, &#34;EBAY&#34;, &#34;MSFT&#34;, &#34;NFLX&#34;, &#34;NVDA&#34;],
+    # stock
+    dailyPriceIndex = &#34;http://localhost:9200/daily_stock/ingest&#34;,
+    incomeStatementIndex = &#34;http://localhost:9200/income_statement/ingest&#34;,
+    balanceSheetIndex = &#34;http://localhost:9200/balance_sheet/ingest&#34;,
+    cashFlowIndex = &#34;http://localhost:9200/cash_flow/ingest&#34;,
+    earningsIndex = &#34;http://localhost:9200/earnings/ingest&#34;,
+    # crypto
+    dailyCryptoIndex = &#34;http://localhost:9200/daily_crypto/ingest&#34;,
 )</code></pre>
 </details>
 </section>

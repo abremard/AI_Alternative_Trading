@@ -9,6 +9,8 @@ import time
 from utils import logger, request
 from elk import ingest
 
+from scrape.job import config
+
 def api_req(params):
     """ Alpha vantage API wrapper. For more information please refer to: https://www.alphavantage.co/documentation/
 
@@ -43,7 +45,7 @@ def daily_download(symbols):
         symbols (str[]): Array of symbols from which price data will be extracted
     """    
     # Elastic search index    
-    elasticPath = "http://localhost:9200/daily_stock/ingest"
+    elasticPath = config.alphavConfig['dailyPriceIndex']
     
     for symbol in symbols:
         params = {
@@ -81,7 +83,7 @@ def income_statement_download(symbols):
         symbols (str[]): Array of symbols from which income statements will be extracted
     """    
     # Elastic search index
-    elasticPath = "http://localhost:9200/income_statement/ingest"
+    elasticPath = config.alphavConfig['incomeStatementIndex']
 
     for symbol in symbols:
         params = {
@@ -107,7 +109,7 @@ def balance_sheet_download(symbols):
         symbols (str[]): Array of symbols from which balance sheets will be extracted
     """    
     # Elastic search index
-    elasticPath = "http://localhost:9200/balance_sheet/ingest"
+    elasticPath = config.alphavConfig['balanceSheetIndex']
 
     for symbol in symbols:
         params = {
@@ -133,7 +135,7 @@ def cash_flow_download(symbols):
         symbols (str[]): Array of symbols from which cash flows will be extracted
     """
     # Elastic search index
-    elasticPath = "http://localhost:9200/cash_flow/ingest"
+    elasticPath = config.alphavConfig['cashFlowIndex']
 
     for symbol in symbols:
         params = {
@@ -159,7 +161,7 @@ def earnings_download(symbols):
         symbols (str[]): Array of symbols from which earnings will be extracted
     """    
     # Elastic search index
-    elasticPath = "http://localhost:9200/earnings/ingest"    
+    elasticPath = config.alphavConfig['earningsIndex']    
     for symbol in symbols:
         params = {
             "function": "EARNINGS",
@@ -183,7 +185,7 @@ def crypto_daily(symbols, market="USD"):
         market (str, optional): Market on which the symbol is traded. Defaults to "USD".
     """
     # Elastic search index
-    elasticPath = "http://localhost:9200/daily_crypto/ingest"
+    elasticPath = config.alphavConfig['dailyCryptoIndex']
     for symbol in symbols:
         params = {
             "function": "DIGITAL_CURRENCY_DAILY",
@@ -208,25 +210,3 @@ def crypto_daily(symbols, market="USD"):
                 ingest.ingest(post_url=elasticPath, payload=tmpDict)
         else:
             logger.info("Skipping "+symbol+" because request failed...")
-
-def job(symbols):
-    """ Scrape job for stocks. Gets daily prices + SEC informations
-
-    Args:
-        symbols (str[]): list of stock symbols to extract data from
-    """    
-    # ------------- TIME SERIES --------------
-    # daily_download(symbols=symbols)
-    # ------------- SEC FILINGS --------------
-    income_statement_download(symbols=symbols)
-    balance_sheet_download(symbols=symbols)
-    cash_flow_download(symbols=symbols)
-    earnings_download(symbols=symbols)
-
-def crypto_job(symbols):
-    """ Scrape job for crypto. Gets daily prices
-
-    Args:
-        symbols (str[]): list of crypto symbols to extract data from
-    """    
-    crypto_daily(symbols=symbols)

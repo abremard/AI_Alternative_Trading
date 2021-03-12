@@ -38,6 +38,8 @@ import time
 from utils import logger, request
 from elk import ingest
 
+from scrape.job import config
+
 def api_req(params):
     &#34;&#34;&#34; Alpha vantage API wrapper. For more information please refer to: https://www.alphavantage.co/documentation/
 
@@ -72,7 +74,7 @@ def daily_download(symbols):
         symbols (str[]): Array of symbols from which price data will be extracted
     &#34;&#34;&#34;    
     # Elastic search index    
-    elasticPath = &#34;http://localhost:9200/daily_stock/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;dailyPriceIndex&#39;]
     
     for symbol in symbols:
         params = {
@@ -110,7 +112,7 @@ def income_statement_download(symbols):
         symbols (str[]): Array of symbols from which income statements will be extracted
     &#34;&#34;&#34;    
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/income_statement/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;incomeStatementIndex&#39;]
 
     for symbol in symbols:
         params = {
@@ -136,7 +138,7 @@ def balance_sheet_download(symbols):
         symbols (str[]): Array of symbols from which balance sheets will be extracted
     &#34;&#34;&#34;    
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/balance_sheet/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;balanceSheetIndex&#39;]
 
     for symbol in symbols:
         params = {
@@ -162,7 +164,7 @@ def cash_flow_download(symbols):
         symbols (str[]): Array of symbols from which cash flows will be extracted
     &#34;&#34;&#34;
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/cash_flow/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;cashFlowIndex&#39;]
 
     for symbol in symbols:
         params = {
@@ -188,7 +190,7 @@ def earnings_download(symbols):
         symbols (str[]): Array of symbols from which earnings will be extracted
     &#34;&#34;&#34;    
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/earnings/ingest&#34;    
+    elasticPath = config.alphavConfig[&#39;earningsIndex&#39;]    
     for symbol in symbols:
         params = {
             &#34;function&#34;: &#34;EARNINGS&#34;,
@@ -212,7 +214,7 @@ def crypto_daily(symbols, market=&#34;USD&#34;):
         market (str, optional): Market on which the symbol is traded. Defaults to &#34;USD&#34;.
     &#34;&#34;&#34;
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/daily_crypto/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;dailyCryptoIndex&#39;]
     for symbol in symbols:
         params = {
             &#34;function&#34;: &#34;DIGITAL_CURRENCY_DAILY&#34;,
@@ -236,29 +238,7 @@ def crypto_daily(symbols, market=&#34;USD&#34;):
                 # Ingest into Elastic Search
                 ingest.ingest(post_url=elasticPath, payload=tmpDict)
         else:
-            logger.info(&#34;Skipping &#34;+symbol+&#34; because request failed...&#34;)
-
-def job(symbols):
-    &#34;&#34;&#34; Scrape job for stocks. Gets daily prices + SEC informations
-
-    Args:
-        symbols (str[]): list of stock symbols to extract data from
-    &#34;&#34;&#34;    
-    # ------------- TIME SERIES --------------
-    # daily_download(symbols=symbols)
-    # ------------- SEC FILINGS --------------
-    income_statement_download(symbols=symbols)
-    balance_sheet_download(symbols=symbols)
-    cash_flow_download(symbols=symbols)
-    earnings_download(symbols=symbols)
-
-def crypto_job(symbols):
-    &#34;&#34;&#34; Scrape job for crypto. Gets daily prices
-
-    Args:
-        symbols (str[]): list of crypto symbols to extract data from
-    &#34;&#34;&#34;    
-    crypto_daily(symbols=symbols)</code></pre>
+            logger.info(&#34;Skipping &#34;+symbol+&#34; because request failed...&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -332,7 +312,7 @@ def crypto_job(symbols):
         symbols (str[]): Array of symbols from which balance sheets will be extracted
     &#34;&#34;&#34;    
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/balance_sheet/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;balanceSheetIndex&#39;]
 
     for symbol in symbols:
         params = {
@@ -373,7 +353,7 @@ def crypto_job(symbols):
         symbols (str[]): Array of symbols from which cash flows will be extracted
     &#34;&#34;&#34;
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/cash_flow/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;cashFlowIndex&#39;]
 
     for symbol in symbols:
         params = {
@@ -417,7 +397,7 @@ def crypto_job(symbols):
         market (str, optional): Market on which the symbol is traded. Defaults to &#34;USD&#34;.
     &#34;&#34;&#34;
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/daily_crypto/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;dailyCryptoIndex&#39;]
     for symbol in symbols:
         params = {
             &#34;function&#34;: &#34;DIGITAL_CURRENCY_DAILY&#34;,
@@ -444,29 +424,6 @@ def crypto_job(symbols):
             logger.info(&#34;Skipping &#34;+symbol+&#34; because request failed...&#34;)</code></pre>
 </details>
 </dd>
-<dt id="src.scrape.alphavantage.crypto_job"><code class="name flex">
-<span>def <span class="ident">crypto_job</span></span>(<span>symbols)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Scrape job for crypto. Gets daily prices</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
-<dd>list of crypto symbols to extract data from</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def crypto_job(symbols):
-    &#34;&#34;&#34; Scrape job for crypto. Gets daily prices
-
-    Args:
-        symbols (str[]): list of crypto symbols to extract data from
-    &#34;&#34;&#34;    
-    crypto_daily(symbols=symbols)</code></pre>
-</details>
-</dd>
 <dt id="src.scrape.alphavantage.daily_download"><code class="name flex">
 <span>def <span class="ident">daily_download</span></span>(<span>symbols)</span>
 </code></dt>
@@ -488,7 +445,7 @@ def crypto_job(symbols):
         symbols (str[]): Array of symbols from which price data will be extracted
     &#34;&#34;&#34;    
     # Elastic search index    
-    elasticPath = &#34;http://localhost:9200/daily_stock/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;dailyPriceIndex&#39;]
     
     for symbol in symbols:
         params = {
@@ -541,7 +498,7 @@ def crypto_job(symbols):
         symbols (str[]): Array of symbols from which earnings will be extracted
     &#34;&#34;&#34;    
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/earnings/ingest&#34;    
+    elasticPath = config.alphavConfig[&#39;earningsIndex&#39;]    
     for symbol in symbols:
         params = {
             &#34;function&#34;: &#34;EARNINGS&#34;,
@@ -579,7 +536,7 @@ def crypto_job(symbols):
         symbols (str[]): Array of symbols from which income statements will be extracted
     &#34;&#34;&#34;    
     # Elastic search index
-    elasticPath = &#34;http://localhost:9200/income_statement/ingest&#34;
+    elasticPath = config.alphavConfig[&#39;incomeStatementIndex&#39;]
 
     for symbol in symbols:
         params = {
@@ -597,35 +554,6 @@ def crypto_job(symbols):
                 ingest.ingest(post_url=elasticPath, payload=report)
         else:
             logger.info(&#34;Skipping &#34;+symbol+&#34; because request failed...&#34;)</code></pre>
-</details>
-</dd>
-<dt id="src.scrape.alphavantage.job"><code class="name flex">
-<span>def <span class="ident">job</span></span>(<span>symbols)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Scrape job for stocks. Gets daily prices + SEC informations</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
-<dd>list of stock symbols to extract data from</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def job(symbols):
-    &#34;&#34;&#34; Scrape job for stocks. Gets daily prices + SEC informations
-
-    Args:
-        symbols (str[]): list of stock symbols to extract data from
-    &#34;&#34;&#34;    
-    # ------------- TIME SERIES --------------
-    # daily_download(symbols=symbols)
-    # ------------- SEC FILINGS --------------
-    income_statement_download(symbols=symbols)
-    balance_sheet_download(symbols=symbols)
-    cash_flow_download(symbols=symbols)
-    earnings_download(symbols=symbols)</code></pre>
 </details>
 </dd>
 </dl>
@@ -650,11 +578,9 @@ def crypto_job(symbols):
 <li><code><a title="src.scrape.alphavantage.balance_sheet_download" href="#src.scrape.alphavantage.balance_sheet_download">balance_sheet_download</a></code></li>
 <li><code><a title="src.scrape.alphavantage.cash_flow_download" href="#src.scrape.alphavantage.cash_flow_download">cash_flow_download</a></code></li>
 <li><code><a title="src.scrape.alphavantage.crypto_daily" href="#src.scrape.alphavantage.crypto_daily">crypto_daily</a></code></li>
-<li><code><a title="src.scrape.alphavantage.crypto_job" href="#src.scrape.alphavantage.crypto_job">crypto_job</a></code></li>
 <li><code><a title="src.scrape.alphavantage.daily_download" href="#src.scrape.alphavantage.daily_download">daily_download</a></code></li>
 <li><code><a title="src.scrape.alphavantage.earnings_download" href="#src.scrape.alphavantage.earnings_download">earnings_download</a></code></li>
 <li><code><a title="src.scrape.alphavantage.income_statement_download" href="#src.scrape.alphavantage.income_statement_download">income_statement_download</a></code></li>
-<li><code><a title="src.scrape.alphavantage.job" href="#src.scrape.alphavantage.job">job</a></code></li>
 </ul>
 </li>
 </ul>

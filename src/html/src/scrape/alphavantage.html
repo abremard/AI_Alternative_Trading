@@ -61,7 +61,7 @@ def api_req(params):
     if response.status_code == 200:
         logger.debug(logInfo+&#39; - SUCCESS!&#39;)
     else:
-        logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+        logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
     return response
 
 
@@ -143,7 +143,6 @@ def balance_sheet_download(symbols):
             &#34;function&#34;: &#34;BALANCE_SHEET&#34;,
             &#34;symbol&#34;: symbol,
         }
-        outputPath = &#34;./data/fundamental/balance-sheet/&#34;+symbol+&#34;.json&#34;
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -170,7 +169,6 @@ def cash_flow_download(symbols):
             &#34;function&#34;: &#34;CASH_FLOW&#34;,
             &#34;symbol&#34;: symbol,
         }
-        outputPath = &#34;./data/fundamental/cash-flow/&#34;+symbol+&#34;.json&#34;
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -196,7 +194,6 @@ def earnings_download(symbols):
             &#34;function&#34;: &#34;EARNINGS&#34;,
             &#34;symbol&#34;: symbol,
         }
-        outputPath = &#34;./data/fundamental/earnings/&#34;+symbol+&#34;.json&#34;
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -222,7 +219,6 @@ def crypto_daily(symbols, market=&#34;USD&#34;):
             &#34;symbol&#34;: symbol,
             &#34;market&#34;: market
         }
-        outputPath = &#34;./data/crypto/daily/&#34;+symbol+&#34;.json&#34;
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -249,7 +245,7 @@ def job(symbols):
         symbols (str[]): list of stock symbols to extract data from
     &#34;&#34;&#34;    
     # ------------- TIME SERIES --------------
-    daily_download(symbols=symbols)
+    # daily_download(symbols=symbols)
     # ------------- SEC FILINGS --------------
     income_statement_download(symbols=symbols)
     balance_sheet_download(symbols=symbols)
@@ -311,7 +307,7 @@ def crypto_job(symbols):
     if response.status_code == 200:
         logger.debug(logInfo+&#39; - SUCCESS!&#39;)
     else:
-        logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+        logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
     return response</code></pre>
 </details>
 </dd>
@@ -343,7 +339,6 @@ def crypto_job(symbols):
             &#34;function&#34;: &#34;BALANCE_SHEET&#34;,
             &#34;symbol&#34;: symbol,
         }
-        outputPath = &#34;./data/fundamental/balance-sheet/&#34;+symbol+&#34;.json&#34;
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -385,7 +380,6 @@ def crypto_job(symbols):
             &#34;function&#34;: &#34;CASH_FLOW&#34;,
             &#34;symbol&#34;: symbol,
         }
-        outputPath = &#34;./data/fundamental/cash-flow/&#34;+symbol+&#34;.json&#34;
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -430,7 +424,6 @@ def crypto_job(symbols):
             &#34;symbol&#34;: symbol,
             &#34;market&#34;: market
         }
-        outputPath = &#34;./data/crypto/daily/&#34;+symbol+&#34;.json&#34;
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -554,7 +547,6 @@ def crypto_job(symbols):
             &#34;function&#34;: &#34;EARNINGS&#34;,
             &#34;symbol&#34;: symbol,
         }
-        outputPath = &#34;./data/fundamental/earnings/&#34;+symbol+&#34;.json&#34;
         response = api_req(params=params)
         if response.status_code == 200:
             responseDict = json.loads(response.content)
@@ -628,7 +620,7 @@ def crypto_job(symbols):
         symbols (str[]): list of stock symbols to extract data from
     &#34;&#34;&#34;    
     # ------------- TIME SERIES --------------
-    daily_download(symbols=symbols)
+    # daily_download(symbols=symbols)
     # ------------- SEC FILINGS --------------
     income_statement_download(symbols=symbols)
     balance_sheet_download(symbols=symbols)

@@ -70,7 +70,7 @@ def ec_list_download(startPage=1, endPage=10):
                     &#34;title&#34;: title
                 })
         else:
-            logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+            logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
             logger.info(&#34;Skipping page &#34;+page+&#34; because request failed...&#34;)
     return urlList
 
@@ -160,7 +160,7 @@ def ec_transcript_download(href, title):
         # parse meta-data
         companyName = articleSoup.find_all(&#34;p&#34;)[1].find_all(&#34;strong&#34;)[0].text
         date = articleSoup.find(id=&#34;date&#34;).text
-        time = articleSoup.find(id=&#34;time&#34;).text
+        artTime = articleSoup.find(id=&#34;time&#34;).text
         duration = response.text.split(&#34;Duration: &#34;)[1].split(&#34;&lt;/strong&gt;&#34;)[0]
         # parse call participants
         participantsStr = response.text.split(&#34;Call participants:&#34;)[1].split(&#34;&lt;p&gt;&lt;a href=&#34;)[0].split(&#34;&lt;/h2&gt;&#34;)[1]
@@ -182,14 +182,14 @@ def ec_transcript_download(href, title):
             &#34;company&#34;: companyName,
             &#34;title&#34;: title,
             &#34;date&#34;: date,
-            &#34;time&#34;: time,
+            &#34;time&#34;: artTime,
             &#34;duration&#34;: duration,
             &#34;participants&#34;: participants
         }
         # Ingest into Elastic Search
         ingest.ingest(post_url=elasticPath, payload=finalDict)
     else:
-        logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+        logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
         logger.info(&#34;Skipping article: &#39;&#34;+title+&#34;&#39; because request failed...&#34;)
 
 def all_transcripts_download(startPage=1, endPage=10):
@@ -207,15 +207,18 @@ def all_transcripts_download(startPage=1, endPage=10):
         page = page + 1
         href = url[&#39;href&#39;]
         title = url[&#39;title&#39;]
-        ec_transcript_download(href=href, title=title)
+        try:
+            ec_transcript_download(href=href, title=title)
+        except:
+            logger.info(&#34;Skipping article: &#39;&#34;+title+&#34;&#39; because request failed...&#34;)
 
 def job():
     &#34;&#34;&#34; Scraping job. 26000 articles, sleep 3 seconds after each article scrape, ~24 hours
     &#34;&#34;&#34;    
-    for i in range(65):
-        print(&#34;scraping from &#34;+str(i*20+1)+&#34; to &#34;+str((i+1)*20))
-        all_transcripts_download(startPage=(i*20+1),endPage=((i+1)*20))
-        print(str(i*20+1)+&#34; to &#34;+str((i+1)*20)+&#34; done!&#34;)</code></pre>
+    for i in range(8):
+        print(&#34;scraping from &#34;+str(i*20+1160)+&#34; to &#34;+str((i+1)*20+1160))
+        all_transcripts_download(startPage=(i*20+1160),endPage=((i+1)*20+1160))
+        print(str(i*20+1160)+&#34; to &#34;+str((i+1)*20+1160)+&#34; done!&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -256,7 +259,10 @@ def job():
         page = page + 1
         href = url[&#39;href&#39;]
         title = url[&#39;title&#39;]
-        ec_transcript_download(href=href, title=title)</code></pre>
+        try:
+            ec_transcript_download(href=href, title=title)
+        except:
+            logger.info(&#34;Skipping article: &#39;&#34;+title+&#34;&#39; because request failed...&#34;)</code></pre>
 </details>
 </dd>
 <dt id="src.scrape.motleyfool.ec_list_download"><code class="name flex">
@@ -308,7 +314,7 @@ def job():
                     &#34;title&#34;: title
                 })
         else:
-            logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+            logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
             logger.info(&#34;Skipping page &#34;+page+&#34; because request failed...&#34;)
     return urlList</code></pre>
 </details>
@@ -421,7 +427,7 @@ def job():
         # parse meta-data
         companyName = articleSoup.find_all(&#34;p&#34;)[1].find_all(&#34;strong&#34;)[0].text
         date = articleSoup.find(id=&#34;date&#34;).text
-        time = articleSoup.find(id=&#34;time&#34;).text
+        artTime = articleSoup.find(id=&#34;time&#34;).text
         duration = response.text.split(&#34;Duration: &#34;)[1].split(&#34;&lt;/strong&gt;&#34;)[0]
         # parse call participants
         participantsStr = response.text.split(&#34;Call participants:&#34;)[1].split(&#34;&lt;p&gt;&lt;a href=&#34;)[0].split(&#34;&lt;/h2&gt;&#34;)[1]
@@ -443,14 +449,14 @@ def job():
             &#34;company&#34;: companyName,
             &#34;title&#34;: title,
             &#34;date&#34;: date,
-            &#34;time&#34;: time,
+            &#34;time&#34;: artTime,
             &#34;duration&#34;: duration,
             &#34;participants&#34;: participants
         }
         # Ingest into Elastic Search
         ingest.ingest(post_url=elasticPath, payload=finalDict)
     else:
-        logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+        logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
         logger.info(&#34;Skipping article: &#39;&#34;+title+&#34;&#39; because request failed...&#34;)</code></pre>
 </details>
 </dd>
@@ -466,10 +472,10 @@ def job():
 <pre><code class="python">def job():
     &#34;&#34;&#34; Scraping job. 26000 articles, sleep 3 seconds after each article scrape, ~24 hours
     &#34;&#34;&#34;    
-    for i in range(65):
-        print(&#34;scraping from &#34;+str(i*20+1)+&#34; to &#34;+str((i+1)*20))
-        all_transcripts_download(startPage=(i*20+1),endPage=((i+1)*20))
-        print(str(i*20+1)+&#34; to &#34;+str((i+1)*20)+&#34; done!&#34;)</code></pre>
+    for i in range(8):
+        print(&#34;scraping from &#34;+str(i*20+1160)+&#34; to &#34;+str((i+1)*20+1160))
+        all_transcripts_download(startPage=(i*20+1160),endPage=((i+1)*20+1160))
+        print(str(i*20+1160)+&#34; to &#34;+str((i+1)*20+1160)+&#34; done!&#34;)</code></pre>
 </details>
 </dd>
 </dl>

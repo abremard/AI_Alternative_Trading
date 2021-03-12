@@ -30,12 +30,32 @@
 <pre><code class="python">&#34;&#34;&#34; Python stwits scraping job
 &#34;&#34;&#34;
 
-# import time
+import time
 
-# from scrape import stocktwits as stwits
+from pathlib import Path
+parent = Path(__file__).resolve().parent
+srcPath = parent.parent.parent
+import sys
+sys.path.insert(0, srcPath)
+
+from scrape.job import config
+
+from scrape import stocktwits as stwits
+
+def job(symbol):
+    &#34;&#34;&#34; Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.
+
+    Args:
+        symbol (str): stock or crypto symbol, for example &#34;AAPL&#34;
+    &#34;&#34;&#34;
+    next = stwits.extract(symbol=symbol, nb=190)
+    time.sleep(3660)
+    while True:
+        next = stwits.extract(symbol=symbol, nb=200, params=next)
+        time.sleep(3660)
 
 # start = time.time()
-# stwits.job(&#34;AAL&#34;)
+# job(config.stwitsConfig[&#39;symbol&#39;])
 # end = time.time()
 # print(&#34;Stocktwits extraction took a total of &#34;+str(end - start)+&#34; seconds&#34;)</code></pre>
 </details>
@@ -45,6 +65,36 @@
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="src.scrape.job.stwits.job"><code class="name flex">
+<span>def <span class="ident">job</span></span>(<span>symbol)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>symbol</code></strong> :&ensp;<code>str</code></dt>
+<dd>stock or crypto symbol, for example "AAPL"</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def job(symbol):
+    &#34;&#34;&#34; Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.
+
+    Args:
+        symbol (str): stock or crypto symbol, for example &#34;AAPL&#34;
+    &#34;&#34;&#34;
+    next = stwits.extract(symbol=symbol, nb=190)
+    time.sleep(3660)
+    while True:
+        next = stwits.extract(symbol=symbol, nb=200, params=next)
+        time.sleep(3660)</code></pre>
+</details>
+</dd>
+</dl>
 </section>
 <section>
 </section>
@@ -58,6 +108,11 @@
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="src.scrape.job" href="index.html">src.scrape.job</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="src.scrape.job.stwits.job" href="#src.scrape.job.stwits.job">job</a></code></li>
 </ul>
 </li>
 </ul>

@@ -30,9 +30,15 @@
 <pre><code class="python">&#34;&#34;&#34; Python motley fool scraping job
 &#34;&#34;&#34;
 
-# import time
+import time
 
-# from scrape import motleyfool as mfool
+from pathlib import Path
+parent = Path(__file__).resolve().parent
+srcPath = parent.parent.parent
+import sys
+sys.path.insert(0, srcPath)
+
+from scrape import motleyfool as mfool
 
 # start = time.time()
 # mfool.job()

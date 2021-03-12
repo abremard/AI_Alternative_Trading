@@ -38,8 +38,10 @@ import time
 from utils import logger, request
 from elk import ingest
 
+from scrape.job import config
+
 # Elastic search index
-elasticPath = &#34;http://localhost:9200/stocktwits/ingest&#34;
+elasticPath = config.stwitsConfig[&#34;elasticPath&#34;]
 
 def get_stream(symbol, params=&#34;&#34;):
     &#34;&#34;&#34; Returns 30 messages given a range (default to the 30 most recent messages) for the specified symbol so we need to run multiple requests by setting max value down to the oldest message in the 30 messages (given by the cursor), for example with max=298005055 for AAPL, next max is 297989058
@@ -55,7 +57,8 @@ def get_stream(symbol, params=&#34;&#34;):
     url = &#34;https://api.stocktwits.com/api/2/streams/symbol/ric/&#34;+symbol+&#34;.json&#34;+params
     response, logInfo = request.get(url=url, timeout=120)
     if response.status_code == 200:
-        logger.debug(logInfo+&#39; - max value is &#39;+params.split(&#34;=&#34;)[1]+&#39; - SUCCESS!&#39;)
+        if params != &#34;&#34;:
+            logger.debug(logInfo+&#39; - max value is &#39;+params.split(&#34;=&#34;)[1]+&#39; - SUCCESS!&#39;)
         responseDict = json.loads(response.content)
         cursor = responseDict[&#34;cursor&#34;]
         messages = responseDict[&#34;messages&#34;]
@@ -64,10 +67,10 @@ def get_stream(symbol, params=&#34;&#34;):
             ingest.ingest(post_url=elasticPath, payload=message)
     elif response.status_code == 429:
         time.sleep(600)
-        logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+        logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
         logger.info(&#34;Skipping symbol &#34;+symbol+&#34; with max value &#34;+params.split(&#34;=&#34;)[1]+&#34; because request failed...&#34;)    
     else:
-        logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+        logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
         logger.info(&#34;Skipping symbol &#34;+symbol+&#34; with max value &#34;+params.split(&#34;=&#34;)[1]+&#34; because request failed...&#34;)
     return cursor
 
@@ -87,20 +90,11 @@ def extract(symbol, nb = 10, params=None):
     for i in range(nb):
         next = cursor[&#34;max&#34;]
         params = &#34;?max=&#34;+str(next)
-        cursor = get_stream(symbol=symbol, params=params)
-    return next
-
-def job(symbol):
-    &#34;&#34;&#34; Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.
-
-    Args:
-        symbol (str): stock or crypto symbol, for example &#34;AAPL&#34;
-    &#34;&#34;&#34;    
-    next = extract(symbol=symbol, nb=200,)
-    time.sleep(3600)
-    while True:
-        next = extract(symbol=symbol, nb=200, params=next)
-        time.sleep(3600)</code></pre>
+        try:
+            cursor = get_stream(symbol=symbol, params=params)
+        except:
+            logger.info(&#34;Skipping symbol &#34;+symbol+&#34; because request failed...&#34;)
+    return next</code></pre>
 </details>
 </section>
 <section>
@@ -144,7 +138,10 @@ def job(symbol):
     for i in range(nb):
         next = cursor[&#34;max&#34;]
         params = &#34;?max=&#34;+str(next)
-        cursor = get_stream(symbol=symbol, params=params)
+        try:
+            cursor = get_stream(symbol=symbol, params=params)
+        except:
+            logger.info(&#34;Skipping symbol &#34;+symbol+&#34; because request failed...&#34;)
     return next</code></pre>
 </details>
 </dd>
@@ -183,7 +180,8 @@ def job(symbol):
     url = &#34;https://api.stocktwits.com/api/2/streams/symbol/ric/&#34;+symbol+&#34;.json&#34;+params
     response, logInfo = request.get(url=url, timeout=120)
     if response.status_code == 200:
-        logger.debug(logInfo+&#39; - max value is &#39;+params.split(&#34;=&#34;)[1]+&#39; - SUCCESS!&#39;)
+        if params != &#34;&#34;:
+            logger.debug(logInfo+&#39; - max value is &#39;+params.split(&#34;=&#34;)[1]+&#39; - SUCCESS!&#39;)
         responseDict = json.loads(response.content)
         cursor = responseDict[&#34;cursor&#34;]
         messages = responseDict[&#34;messages&#34;]
@@ -192,39 +190,12 @@ def job(symbol):
             ingest.ingest(post_url=elasticPath, payload=message)
     elif response.status_code == 429:
         time.sleep(600)
-        logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+        logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
         logger.info(&#34;Skipping symbol &#34;+symbol+&#34; with max value &#34;+params.split(&#34;=&#34;)[1]+&#34; because request failed...&#34;)    
     else:
-        logger.error(logInfo+&#39; - FAILED with error code &#39;+response.status_code+&#39; and message &#39;+response.text)
+        logger.error(logInfo+&#39; - FAILED with error code &#39;+str(response.status_code)+&#39; and message &#39;+response.text)
         logger.info(&#34;Skipping symbol &#34;+symbol+&#34; with max value &#34;+params.split(&#34;=&#34;)[1]+&#34; because request failed...&#34;)
     return cursor</code></pre>
-</details>
-</dd>
-<dt id="src.scrape.stocktwits.job"><code class="name flex">
-<span>def <span class="ident">job</span></span>(<span>symbol)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>symbol</code></strong> :&ensp;<code>str</code></dt>
-<dd>stock or crypto symbol, for example "AAPL"</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def job(symbol):
-    &#34;&#34;&#34; Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.
-
-    Args:
-        symbol (str): stock or crypto symbol, for example &#34;AAPL&#34;
-    &#34;&#34;&#34;    
-    next = extract(symbol=symbol, nb=200,)
-    time.sleep(3600)
-    while True:
-        next = extract(symbol=symbol, nb=200, params=next)
-        time.sleep(3600)</code></pre>
 </details>
 </dd>
 </dl>
@@ -247,7 +218,6 @@ def job(symbol):
 <ul class="">
 <li><code><a title="src.scrape.stocktwits.extract" href="#src.scrape.stocktwits.extract">extract</a></code></li>
 <li><code><a title="src.scrape.stocktwits.get_stream" href="#src.scrape.stocktwits.get_stream">get_stream</a></code></li>
-<li><code><a title="src.scrape.stocktwits.job" href="#src.scrape.stocktwits.job">job</a></code></li>
 </ul>
 </li>
 </ul>

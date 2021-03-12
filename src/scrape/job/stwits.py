@@ -9,7 +9,7 @@ srcPath = parent.parent.parent
 import sys
 sys.path.insert(0, srcPath)
 
-import config
+from scrape.job import config
 
 from scrape import stocktwits as stwits
 

@@ -30,15 +30,21 @@
 <pre><code class="python">&#34;&#34;&#34; Python alphavantage scraping job
 &#34;&#34;&#34;
 
-# import time
+import time
 
-# from scrape import alphavantage as alphav
+from pathlib import Path
+parent = Path(__file__).resolve().parent
+srcPath = parent.parent.parent
+import sys
+sys.path.insert(0, srcPath)
+
+from scrape import alphavantage as alphav
 
 # start = time.time()
 # alphav.job(symbols=[&#34;IBM&#34;, &#34;AAPL&#34;, &#34;AMGN&#34;, &#34;GOOG&#34;, &#34;AMZN&#34;, &#34;EBAY&#34;, &#34;MSFT&#34;, &#34;NFLX&#34;, &#34;NVDA&#34;])
 # step = time.time()
 # print(&#34;Stock extraction took a total of &#34;+str(step - start)+&#34; seconds&#34;)
-# alphav.crypto_job(symbols=[&#34;BTC&#34;, &#34;ETH&#34;, &#34;LTC&#34;, &#34;XRP&#34;, &#34;USDT&#34;, &#34;UNI&#34;, &#39;LINK&#39;, &#34;ADA&#34;, &#34;DOT&#34;, &#34;XLM&#34;, &#34;BNB&#34;, &#34;TRX&#34;])
+# alphav.crypto_job(symbols=[&#34;BTC&#34;, &#34;ETH&#34;, &#34;LTC&#34;, &#34;XRP&#34;])
 # end = time.time()
 # print(&#34;Crypto extraction took a total of &#34;+str(end - step)+&#34; seconds&#34;)</code></pre>
 </details>

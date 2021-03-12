@@ -29,16 +29,21 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34; Python elasticsearch setup job
 &#34;&#34;&#34;
+import time
 
-# import time
+from pathlib import Path
+parent = Path(__file__).resolve().parent
+srcPath = parent.parent.parent
+import sys
+sys.path.insert(0, srcPath)
 
-# from elk import setup
+from elk import setup
 
 # start = time.time()
 # setup.create_index(slug=&#34;crypto_news&#34;)
 # setup.create_index(slug=&#34;balance_sheet&#34;)
 # setup.create_index(slug=&#34;cash_flow&#34;)
-# setup.create_index(slug=&#34;crypto_news&#34;)
+# setup.create_index(slug=&#34;crypto_score&#34;)
 # setup.create_index(slug=&#34;daily_crypto&#34;)
 # setup.create_index(slug=&#34;daily_stock&#34;)
 # setup.create_index(slug=&#34;earning_calls&#34;)

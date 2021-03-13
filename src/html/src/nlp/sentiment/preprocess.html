@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>src.scrape.job.stwits API documentation</title>
-<meta name="description" content="Python stwits scraping job" />
+<title>src.nlp.sentiment.preprocess API documentation</title>
+<meta name="description" content="Preprocess stocktwits data" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,18 +19,18 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>src.scrape.job.stwits</code></h1>
+<h1 class="title">Module <code>src.nlp.sentiment.preprocess</code></h1>
 </header>
 <section id="section-intro">
-<p>Python stwits scraping job</p>
+<p>Preprocess stocktwits data</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34; Python stwits scraping job
+<pre><code class="python">&#34;&#34;&#34; Preprocess stocktwits data
 &#34;&#34;&#34;
 
-import time
+from transformers import BertTokenizer
 
 from pathlib import Path
 parent = Path(__file__).resolve().parent
@@ -38,26 +38,61 @@ srcPath = str(parent.parent.parent).replace(&#34;\\&#34;, &#34;\\\\&#34;)
 import sys
 sys.path.insert(0, srcPath)
 
-from scrape.job import config
+from utils import prettyprint as pp
+from elk import search
 
-from scrape import stocktwits as stwits
+import json
+import pandas as pd
 
-def job(symbol):
-    &#34;&#34;&#34; Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.
+def export_elastic_docs(elastic_docs, filename):
+    &#34;&#34;&#34; Export elasticsearch results to json and csv files
 
     Args:
-        symbol (str): stock or crypto symbol, for example &#34;AAPL&#34;
-    &#34;&#34;&#34;
-    next = stwits.extract(symbol=symbol, nb=190)
-    time.sleep(3660)
-    while True:
-        next = stwits.extract(symbol=symbol, nb=200, params=next)
-        time.sleep(3660)
+        elastic_docs (Dict): input object
+        filename (str): output path
+    &#34;&#34;&#34;    
+    with open(filename+&#39;.json&#39;, &#39;w&#39;) as f:
+        json.dump(elastic_docs, f)
 
-# start = time.time()
-# job(config.stwitsConfig[&#39;symbol&#39;])
-# end = time.time()
-# print(&#34;Stocktwits extraction took a total of &#34;+str(end - start)+&#34; seconds&#34;)</code></pre>
+    docs = pd.DataFrame()
+
+    # iterate each Elasticsearch doc in list
+    for num, doc in enumerate(elastic_docs):
+        
+        # get _source data dict from document
+        source_data = doc[&#34;_source&#34;]
+        
+        # get _id from document
+        _id = source_data[&#34;id&#34;]
+        
+        # bert data will only contain data useful for sentiment analysis
+        # TODO: calculate influence, quality... metrics and add on top of BERT vectors
+        filtered_data = {}
+        filtered_data[&#39;body&#39;] = source_data[&#39;body&#39;]
+        if source_data[&#39;entities&#39;][&#39;sentiment&#39;] is not None:
+            if source_data[&#39;entities&#39;][&#39;sentiment&#39;][&#39;basic&#39;] is not None:
+                filtered_data[&#39;sentiment&#39;] = source_data[&#39;entities&#39;][&#39;sentiment&#39;][&#39;basic&#39;]
+
+        # create a Series object from doc dict object
+        doc_data = pd.Series(filtered_data, name = _id)
+
+        # append the Series object to the DataFrame object
+        docs = docs.append(doc_data)
+        
+    docs.to_csv(filename+&#39;.csv&#39;)
+    
+def main():
+    bullishResults = search.bullish_stocktwits()
+    bearishResults = search.bearish_stocktwits()
+    unlabelledResults = search.unlabelled_stocktwits()
+    # pp.print(bullishResults[:5])
+    # pp.print(bearishResults[:5])
+    # pp.print(unlabelledResults[:5])
+    export_elastic_docs(elastic_docs=bullishResults,filename=&#34;./bullish&#34;)
+    export_elastic_docs(elastic_docs=bearishResults,filename=&#34;./bearish&#34;)
+    export_elastic_docs(elastic_docs=unlabelledResults,filename=&#34;./unlabelled&#34;)
+    
+# main()</code></pre>
 </details>
 </section>
 <section>
@@ -67,31 +102,79 @@ def job(symbol):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="src.scrape.job.stwits.job"><code class="name flex">
-<span>def <span class="ident">job</span></span>(<span>symbol)</span>
+<dt id="src.nlp.sentiment.preprocess.export_elastic_docs"><code class="name flex">
+<span>def <span class="ident">export_elastic_docs</span></span>(<span>elastic_docs, filename)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.</p>
+<div class="desc"><p>Export elasticsearch results to json and csv files</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>symbol</code></strong> :&ensp;<code>str</code></dt>
-<dd>stock or crypto symbol, for example "AAPL"</dd>
+<dt><strong><code>elastic_docs</code></strong> :&ensp;<code>Dict</code></dt>
+<dd>input object</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>output path</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def job(symbol):
-    &#34;&#34;&#34; Extraction job for given symbol. 200 requests are fired every hour, scrapes 144000 stocktwits per day.
+<pre><code class="python">def export_elastic_docs(elastic_docs, filename):
+    &#34;&#34;&#34; Export elasticsearch results to json and csv files
 
     Args:
-        symbol (str): stock or crypto symbol, for example &#34;AAPL&#34;
-    &#34;&#34;&#34;
-    next = stwits.extract(symbol=symbol, nb=190)
-    time.sleep(3660)
-    while True:
-        next = stwits.extract(symbol=symbol, nb=200, params=next)
-        time.sleep(3660)</code></pre>
+        elastic_docs (Dict): input object
+        filename (str): output path
+    &#34;&#34;&#34;    
+    with open(filename+&#39;.json&#39;, &#39;w&#39;) as f:
+        json.dump(elastic_docs, f)
+
+    docs = pd.DataFrame()
+
+    # iterate each Elasticsearch doc in list
+    for num, doc in enumerate(elastic_docs):
+        
+        # get _source data dict from document
+        source_data = doc[&#34;_source&#34;]
+        
+        # get _id from document
+        _id = source_data[&#34;id&#34;]
+        
+        # bert data will only contain data useful for sentiment analysis
+        # TODO: calculate influence, quality... metrics and add on top of BERT vectors
+        filtered_data = {}
+        filtered_data[&#39;body&#39;] = source_data[&#39;body&#39;]
+        if source_data[&#39;entities&#39;][&#39;sentiment&#39;] is not None:
+            if source_data[&#39;entities&#39;][&#39;sentiment&#39;][&#39;basic&#39;] is not None:
+                filtered_data[&#39;sentiment&#39;] = source_data[&#39;entities&#39;][&#39;sentiment&#39;][&#39;basic&#39;]
+
+        # create a Series object from doc dict object
+        doc_data = pd.Series(filtered_data, name = _id)
+
+        # append the Series object to the DataFrame object
+        docs = docs.append(doc_data)
+        
+    docs.to_csv(filename+&#39;.csv&#39;)</code></pre>
+</details>
+</dd>
+<dt id="src.nlp.sentiment.preprocess.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+    bullishResults = search.bullish_stocktwits()
+    bearishResults = search.bearish_stocktwits()
+    unlabelledResults = search.unlabelled_stocktwits()
+    # pp.print(bullishResults[:5])
+    # pp.print(bearishResults[:5])
+    # pp.print(unlabelledResults[:5])
+    export_elastic_docs(elastic_docs=bullishResults,filename=&#34;./bullish&#34;)
+    export_elastic_docs(elastic_docs=bearishResults,filename=&#34;./bearish&#34;)
+    export_elastic_docs(elastic_docs=unlabelledResults,filename=&#34;./unlabelled&#34;)</code></pre>
 </details>
 </dd>
 </dl>
@@ -107,12 +190,13 @@ def job(symbol):
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="src.scrape.job" href="index.html">src.scrape.job</a></code></li>
+<li><code><a title="src.nlp.sentiment" href="index.html">src.nlp.sentiment</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="src.scrape.job.stwits.job" href="#src.scrape.job.stwits.job">job</a></code></li>
+<li><code><a title="src.nlp.sentiment.preprocess.export_elastic_docs" href="#src.nlp.sentiment.preprocess.export_elastic_docs">export_elastic_docs</a></code></li>
+<li><code><a title="src.nlp.sentiment.preprocess.main" href="#src.nlp.sentiment.preprocess.main">main</a></code></li>
 </ul>
 </li>
 </ul>

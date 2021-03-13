@@ -2,7 +2,7 @@
 """
 # Below are configutations for stocktwits job
 stwitsConfig = dict(
-    symbol = 'NFLX',
+    symbol = 'MSFT',
     elasticPath = "http://localhost:9200/stocktwits/ingest",
 )
 # Below are configutations for alphavantage job

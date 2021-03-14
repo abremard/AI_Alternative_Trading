@@ -66,15 +66,7 @@ def tokenizer_plus(tokenizer, sentence, max_length=20):
                             padding = &#39;max_length&#39;,
                             return_attention_mask = True, # add attention mask to not focus on pad tokens
                 )
-    return bert_input
-
-def main():
-    tokenizer = init_tokenizer()
-    test_sentence = &#39;Test tokenization sentence. Followed by another sentence&#39;
-    bert_input = tokenizer_plus(tokenizer=tokenizer, sentence=test_sentence, max_length=20)
-    pp.print(bert_input)
-
-# main()</code></pre>
+    return bert_input</code></pre>
 </details>
 </section>
 <section>
@@ -102,22 +94,6 @@ def main():
         BertTokenizer.Object
     &#34;&#34;&#34;    
     return BertTokenizer.from_pretrained(&#39;bert-base-uncased&#39;, do_lower_case=True)</code></pre>
-</details>
-</dd>
-<dt id="src.nlp.bert.tokenize.main"><code class="name flex">
-<span>def <span class="ident">main</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def main():
-    tokenizer = init_tokenizer()
-    test_sentence = &#39;Test tokenization sentence. Followed by another sentence&#39;
-    bert_input = tokenizer_plus(tokenizer=tokenizer, sentence=test_sentence, max_length=20)
-    pp.print(bert_input)</code></pre>
 </details>
 </dd>
 <dt id="src.nlp.bert.tokenize.tokenizer_plus"><code class="name flex">
@@ -183,7 +159,6 @@ def main():
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="src.nlp.bert.tokenize.init_tokenizer" href="#src.nlp.bert.tokenize.init_tokenizer">init_tokenizer</a></code></li>
-<li><code><a title="src.nlp.bert.tokenize.main" href="#src.nlp.bert.tokenize.main">main</a></code></li>
 <li><code><a title="src.nlp.bert.tokenize.tokenizer_plus" href="#src.nlp.bert.tokenize.tokenizer_plus">tokenizer_plus</a></code></li>
 </ul>
 </li>

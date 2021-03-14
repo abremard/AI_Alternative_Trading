@@ -45,4 +45,4 @@ def fine_tune(max_length = 512, batch_size = 6, train_size = 200):
 
     bert_history = model.fit(train_encoded, epochs=number_of_epochs, validation_data=test_encoded)
 
-fine_tune()
+# fine_tune()

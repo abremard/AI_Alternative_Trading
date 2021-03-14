@@ -38,11 +38,3 @@ def tokenizer_plus(tokenizer, sentence, max_length=20):
                             return_attention_mask = True, # add attention mask to not focus on pad tokens
                 )
     return bert_input
-
-def main():
-    tokenizer = init_tokenizer()
-    test_sentence = 'Test tokenization sentence. Followed by another sentence'
-    bert_input = tokenizer_plus(tokenizer=tokenizer, sentence=test_sentence, max_length=20)
-    pp.print(bert_input)
-
-# main()

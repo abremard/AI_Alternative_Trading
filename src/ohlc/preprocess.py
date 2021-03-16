@@ -1,3 +1,6 @@
+""" Preprocessor for technical analysis
+"""
+
 from pathlib import Path
 parent = Path(__file__).resolve().parent
 srcPath = str(parent.parent.parent).replace("\\", "\\\\")

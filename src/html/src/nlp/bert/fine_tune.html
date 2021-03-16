@@ -73,6 +73,8 @@ def fine_tune(max_length = 512, batch_size = 6, train_size = 200):
     print(model.summary())
 
     bert_history = model.fit(train_encoded, epochs=number_of_epochs, validation_data=test_encoded)
+    
+    model.save(&#34;model/bert&#34;)
 
 # fine_tune()</code></pre>
 </details>
@@ -133,7 +135,9 @@ def fine_tune(max_length = 512, batch_size = 6, train_size = 200):
 
     print(model.summary())
 
-    bert_history = model.fit(train_encoded, epochs=number_of_epochs, validation_data=test_encoded)</code></pre>
+    bert_history = model.fit(train_encoded, epochs=number_of_epochs, validation_data=test_encoded)
+    
+    model.save(&#34;model/bert&#34;)</code></pre>
 </details>
 </dd>
 </dl>

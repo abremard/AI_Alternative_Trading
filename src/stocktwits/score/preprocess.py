@@ -159,9 +159,9 @@ def preprocess():
     results = search.stocktwits_by_symbols(symbols=["AMZN"], gte=gte, lte=lte, size=10000)
     # parsing
     df = parse(elastic_docs=results, symbol="AMZN")
-    df.to_csv("./test.csv")
+    # df.to_csv("./test.csv")
     # score computing
     df = compute_score(dataframe=df)
-    df.to_csv("./test-comp.csv")
+    # df.to_csv("./test-comp.csv")
 
-preprocess()
+# preprocess()

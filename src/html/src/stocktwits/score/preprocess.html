@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>src.stocktwits.score.preprocess API documentation</title>
+<meta name="description" content="Preprocess stocktwits data for tweets scoring" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.stocktwits.score.preprocess</code></h1>
+</header>
+<section id="section-intro">
+<p>Preprocess stocktwits data for tweets scoring</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34; Preprocess stocktwits data for tweets scoring
+&#34;&#34;&#34;
+
+import pandas as pd
+import numpy as np
+import datetime
+
+from pathlib import Path
+parent = Path(__file__).resolve().parent
+srcPath = str(parent.parent.parent).replace(&#34;\\&#34;, &#34;\\\\&#34;)
+import sys
+sys.path.insert(0, srcPath)
+
+from utils import prettyprint as pp
+from elk import search
+
+def parse(elastic_docs, symbol):
+    &#34;&#34;&#34; Keep useful info for tweets scoring
+
+    Args:
+        elastic_docs (Dict): document fetched from elasticsearch index
+        symbol (str): symbol of the stock to score
+
+    Returns:
+        Dataframe.Object: document parsed into dataframe
+    &#34;&#34;&#34;
+    docs = pd.DataFrame() 
+    # iterate each Elasticsearch doc in list
+    for num, doc in enumerate(elastic_docs):
+        # get _source data dict from document
+        source_data = doc[&#34;_source&#34;]
+        # get _id from document
+        _id = source_data[&#34;id&#34;]
+        # bert data will only contain data useful for sentiment analysis
+        source_data[&#34;user_id&#34;] = source_data[&#34;user&#34;][&#34;id&#34;]
+        source_data[&#34;user_username&#34;] = source_data[&#34;user&#34;][&#34;username&#34;]
+        source_data[&#34;user_name&#34;] = source_data[&#34;user&#34;][&#34;name&#34;]
+        source_data[&#34;user_join_date&#34;] = source_data[&#34;user&#34;][&#34;join_date&#34;]
+        source_data[&#34;user_followers&#34;] = source_data[&#34;user&#34;][&#34;followers&#34;]
+        source_data[&#34;user_following&#34;] = source_data[&#34;user&#34;][&#34;following&#34;]
+        source_data[&#34;user_official&#34;] = source_data[&#34;user&#34;][&#34;official&#34;]
+        source_data[&#34;user_ideas&#34;] = source_data[&#34;user&#34;][&#34;ideas&#34;]
+        source_data[&#34;user_watchlist&#34;] = source_data[&#34;user&#34;][&#34;watchlist_stocks_count&#34;]
+        source_data[&#34;user_like_count&#34;] = source_data[&#34;user&#34;][&#34;like_count&#34;]
+        source_data[&#34;source_title&#34;] = source_data[&#34;source&#34;][&#34;title&#34;]
+        source_data[&#34;source_url&#34;] = source_data[&#34;source&#34;][&#34;url&#34;]
+        source_data[&#34;symbol&#34;] = symbol
+        if source_data[&#34;user&#34;][&#34;plus_tier&#34;] != &#34;&#34;:
+            source_data[&#34;user_plus_tier&#34;] = 1.0
+        else:
+            source_data[&#34;user_plus_tier&#34;] = 0.0
+        if source_data[&#34;user&#34;][&#34;premium_room&#34;] != &#34;&#34;:
+            source_data[&#34;user_premium_room&#34;] = 1.0
+        else:
+            source_data[&#34;user_premium_room&#34;] = 0.0
+        if source_data[&#39;entities&#39;][&#39;sentiment&#39;] is not None:
+            if source_data[&#39;entities&#39;][&#39;sentiment&#39;][&#39;basic&#39;] is not None:
+                source_data[&#39;sentiment&#39;] = source_data[&#39;entities&#39;][&#39;sentiment&#39;][&#39;basic&#39;]
+        try:
+            source_data[&#34;likes_count&#34;] = source_data[&#34;likes&#34;][&#34;total&#34;]
+            source_data[&#34;likes_ids&#34;] = source_data[&#34;likes&#34;][&#34;user_ids&#34;]
+            del source_data[&#34;likes&#34;]
+        except:
+            pass
+        try:
+            source_data[&#34;reshared_count&#34;] = source_data[&#34;reshares&#34;][&#34;reshared_count&#34;]
+            source_data[&#34;reshared_user_ids&#34;] = source_data[&#34;reshares&#34;][&#34;user_ids&#34;]
+            del source_data[&#34;reshares&#34;]
+        except:
+            pass
+        try:
+            del source_data[&#34;reshare_message&#34;]
+        except:
+            pass            
+        try:
+            source_data[&#34;is_parent&#34;] = source_data[&#34;conversation&#34;][&#34;parent&#34;]
+            source_data[&#34;replies_count&#34;] = source_data[&#34;conversation&#34;][&#34;replies&#34;]
+            del source_data[&#34;conversation&#34;]
+        except:
+            pass
+        try:
+            del source_data[&#34;links&#34;]
+        except:
+            pass
+        del source_data[&#34;source&#34;]
+        del source_data[&#34;entities&#34;]
+        del source_data[&#34;symbols&#34;]
+        del source_data[&#34;user&#34;]
+        doc_data = pd.Series(source_data, name=source_data[&#39;created_at&#39;])
+        del doc_data[&#34;created_at&#34;]
+        docs = docs.append(doc_data)
+    return docs
+
+def normalize(df):
+    &#34;&#34;&#34; Normalize numeric columns, affect them with their weight and sum them into final tweet score
+
+    Args:
+        df (Dataframe.Object): dataframe containing numeric values and boolean values. Some columns contain boolean values so they won&#39;t need normalization, but they still count in the score.
+
+    Returns:
+        Dataframe.Object: normalized dataframe
+    &#34;&#34;&#34;    
+    normalize_columns = [&#34;likes_count&#34;, &#34;user_followers&#34;, &#34;user_following&#34;, &#34;user_ideas&#34;, &#34;user_like_count&#34;, &#34;user_watchlist&#34;, &#34;replies_count&#34;, &#34;reshared_count&#34;, &#34;timedelta&#34;]
+    columns = [&#34;likes_count&#34;, &#34;user_followers&#34;, &#34;user_following&#34;, &#34;user_ideas&#34;, &#34;user_like_count&#34;, &#34;user_watchlist&#34;, &#34;replies_count&#34;, &#34;reshared_count&#34;, &#34;timedelta&#34;, &#34;user_plus_tier&#34;, &#34;user_premium_room&#34;, &#34;user_official&#34;]
+    weights = [1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    
+    result = df.copy()
+    
+    # fill empty values
+    result[normalize_columns] = result[normalize_columns].fillna(value=0.0)
+    
+    # normalization loop
+    for index, feature_name in enumerate(normalize_columns):
+        # standard score normalization
+        result[feature_name] = (result[feature_name] - result[feature_name].mean())/result[feature_name].std(ddof=0)
+
+    # column weighting loop
+    for index, feature_name in enumerate(columns):
+        result[feature_name] = weights[index] * result[feature_name]
+
+    # sum into score
+    result[&#39;score&#39;] = result[columns].sum(axis=1)
+    
+    # min-max normalization
+    max_value = result[&#39;score&#39;].max()
+    min_value = result[&#39;score&#39;].min()
+    result[&#39;score&#39;] = (result[&#39;score&#39;] - min_value) / (max_value - min_value)
+    
+    return result
+
+def compute_score(dataframe):
+    &#34;&#34;&#34; Calculate tweet score by first normalizing the numeric features and then sum them using their weight
+
+    Args:
+        dataframe (Dataframe.Object): parsed dataframe
+
+    Returns:
+        Dataframe.Object: dataframe containing normalized columns and final score
+    &#34;&#34;&#34;    
+    # timedelta
+    for index, row in dataframe.iterrows():
+        date = datetime.datetime.strptime(index, &#34;%Y-%m-%dT%H:%M:%SZ&#34;)
+        join_date = datetime.datetime.strptime(row[&#39;user_join_date&#39;], &#34;%Y-%m-%d&#34;)
+        delta = (date - join_date).days
+        dataframe.at[index, &#39;timedelta&#39;] = delta
+    # normalize
+    dataframe = normalize(df=dataframe)
+    return dataframe
+    
+def preprocess():
+    &#34;&#34;&#34; Fetch data from elasticsearch, parse it and compute score
+    &#34;&#34;&#34;
+    # day that needs to be studied
+    date = datetime.datetime(2021, 2, 24)
+    gte = date.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+    date += datetime.timedelta(days=1)
+    lte = date.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+    # elasticsearch query
+    results = search.stocktwits_by_symbols(symbols=[&#34;AMZN&#34;], gte=gte, lte=lte, size=10000)
+    # parsing
+    df = parse(elastic_docs=results, symbol=&#34;AMZN&#34;)
+    # df.to_csv(&#34;./test.csv&#34;)
+    # score computing
+    df = compute_score(dataframe=df)
+    # df.to_csv(&#34;./test-comp.csv&#34;)
+
+if __name__ == &#34;__main__&#34;:
+    preprocess()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="src.stocktwits.score.preprocess.compute_score"><code class="name flex">
+<span>def <span class="ident">compute_score</span></span>(<span>dataframe)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate tweet score by first normalizing the numeric features and then sum them using their weight</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dataframe</code></strong> :&ensp;<code>Dataframe.Object</code></dt>
+<dd>parsed dataframe</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dataframe.Object</code></dt>
+<dd>dataframe containing normalized columns and final score</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compute_score(dataframe):
+    &#34;&#34;&#34; Calculate tweet score by first normalizing the numeric features and then sum them using their weight
+
+    Args:
+        dataframe (Dataframe.Object): parsed dataframe
+
+    Returns:
+        Dataframe.Object: dataframe containing normalized columns and final score
+    &#34;&#34;&#34;    
+    # timedelta
+    for index, row in dataframe.iterrows():
+        date = datetime.datetime.strptime(index, &#34;%Y-%m-%dT%H:%M:%SZ&#34;)
+        join_date = datetime.datetime.strptime(row[&#39;user_join_date&#39;], &#34;%Y-%m-%d&#34;)
+        delta = (date - join_date).days
+        dataframe.at[index, &#39;timedelta&#39;] = delta
+    # normalize
+    dataframe = normalize(df=dataframe)
+    return dataframe</code></pre>
+</details>
+</dd>
+<dt id="src.stocktwits.score.preprocess.normalize"><code class="name flex">
+<span>def <span class="ident">normalize</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Normalize numeric columns, affect them with their weight and sum them into final tweet score</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>df</code></strong> :&ensp;<code>Dataframe.Object</code></dt>
+<dd>dataframe containing numeric values and boolean values. Some columns contain boolean values so they won't need normalization, but they still count in the score.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dataframe.Object</code></dt>
+<dd>normalized dataframe</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def normalize(df):
+    &#34;&#34;&#34; Normalize numeric columns, affect them with their weight and sum them into final tweet score
+
+    Args:
+        df (Dataframe.Object): dataframe containing numeric values and boolean values. Some columns contain boolean values so they won&#39;t need normalization, but they still count in the score.
+
+    Returns:
+        Dataframe.Object: normalized dataframe
+    &#34;&#34;&#34;    
+    normalize_columns = [&#34;likes_count&#34;, &#34;user_followers&#34;, &#34;user_following&#34;, &#34;user_ideas&#34;, &#34;user_like_count&#34;, &#34;user_watchlist&#34;, &#34;replies_count&#34;, &#34;reshared_count&#34;, &#34;timedelta&#34;]
+    columns = [&#34;likes_count&#34;, &#34;user_followers&#34;, &#34;user_following&#34;, &#34;user_ideas&#34;, &#34;user_like_count&#34;, &#34;user_watchlist&#34;, &#34;replies_count&#34;, &#34;reshared_count&#34;, &#34;timedelta&#34;, &#34;user_plus_tier&#34;, &#34;user_premium_room&#34;, &#34;user_official&#34;]
+    weights = [1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    
+    result = df.copy()
+    
+    # fill empty values
+    result[normalize_columns] = result[normalize_columns].fillna(value=0.0)
+    
+    # normalization loop
+    for index, feature_name in enumerate(normalize_columns):
+        # standard score normalization
+        result[feature_name] = (result[feature_name] - result[feature_name].mean())/result[feature_name].std(ddof=0)
+
+    # column weighting loop
+    for index, feature_name in enumerate(columns):
+        result[feature_name] = weights[index] * result[feature_name]
+
+    # sum into score
+    result[&#39;score&#39;] = result[columns].sum(axis=1)
+    
+    # min-max normalization
+    max_value = result[&#39;score&#39;].max()
+    min_value = result[&#39;score&#39;].min()
+    result[&#39;score&#39;] = (result[&#39;score&#39;] - min_value) / (max_value - min_value)
+    
+    return result</code></pre>
+</details>
+</dd>
+<dt id="src.stocktwits.score.preprocess.parse"><code class="name flex">
+<span>def <span class="ident">parse</span></span>(<span>elastic_docs, symbol)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Keep useful info for tweets scoring</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>elastic_docs</code></strong> :&ensp;<code>Dict</code></dt>
+<dd>document fetched from elasticsearch index</dd>
+<dt><strong><code>symbol</code></strong> :&ensp;<code>str</code></dt>
+<dd>symbol of the stock to score</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dataframe.Object</code></dt>
+<dd>document parsed into dataframe</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse(elastic_docs, symbol):
+    &#34;&#34;&#34; Keep useful info for tweets scoring
+
+    Args:
+        elastic_docs (Dict): document fetched from elasticsearch index
+        symbol (str): symbol of the stock to score
+
+    Returns:
+        Dataframe.Object: document parsed into dataframe
+    &#34;&#34;&#34;
+    docs = pd.DataFrame() 
+    # iterate each Elasticsearch doc in list
+    for num, doc in enumerate(elastic_docs):
+        # get _source data dict from document
+        source_data = doc[&#34;_source&#34;]
+        # get _id from document
+        _id = source_data[&#34;id&#34;]
+        # bert data will only contain data useful for sentiment analysis
+        source_data[&#34;user_id&#34;] = source_data[&#34;user&#34;][&#34;id&#34;]
+        source_data[&#34;user_username&#34;] = source_data[&#34;user&#34;][&#34;username&#34;]
+        source_data[&#34;user_name&#34;] = source_data[&#34;user&#34;][&#34;name&#34;]
+        source_data[&#34;user_join_date&#34;] = source_data[&#34;user&#34;][&#34;join_date&#34;]
+        source_data[&#34;user_followers&#34;] = source_data[&#34;user&#34;][&#34;followers&#34;]
+        source_data[&#34;user_following&#34;] = source_data[&#34;user&#34;][&#34;following&#34;]
+        source_data[&#34;user_official&#34;] = source_data[&#34;user&#34;][&#34;official&#34;]
+        source_data[&#34;user_ideas&#34;] = source_data[&#34;user&#34;][&#34;ideas&#34;]
+        source_data[&#34;user_watchlist&#34;] = source_data[&#34;user&#34;][&#34;watchlist_stocks_count&#34;]
+        source_data[&#34;user_like_count&#34;] = source_data[&#34;user&#34;][&#34;like_count&#34;]
+        source_data[&#34;source_title&#34;] = source_data[&#34;source&#34;][&#34;title&#34;]
+        source_data[&#34;source_url&#34;] = source_data[&#34;source&#34;][&#34;url&#34;]
+        source_data[&#34;symbol&#34;] = symbol
+        if source_data[&#34;user&#34;][&#34;plus_tier&#34;] != &#34;&#34;:
+            source_data[&#34;user_plus_tier&#34;] = 1.0
+        else:
+            source_data[&#34;user_plus_tier&#34;] = 0.0
+        if source_data[&#34;user&#34;][&#34;premium_room&#34;] != &#34;&#34;:
+            source_data[&#34;user_premium_room&#34;] = 1.0
+        else:
+            source_data[&#34;user_premium_room&#34;] = 0.0
+        if source_data[&#39;entities&#39;][&#39;sentiment&#39;] is not None:
+            if source_data[&#39;entities&#39;][&#39;sentiment&#39;][&#39;basic&#39;] is not None:
+                source_data[&#39;sentiment&#39;] = source_data[&#39;entities&#39;][&#39;sentiment&#39;][&#39;basic&#39;]
+        try:
+            source_data[&#34;likes_count&#34;] = source_data[&#34;likes&#34;][&#34;total&#34;]
+            source_data[&#34;likes_ids&#34;] = source_data[&#34;likes&#34;][&#34;user_ids&#34;]
+            del source_data[&#34;likes&#34;]
+        except:
+            pass
+        try:
+            source_data[&#34;reshared_count&#34;] = source_data[&#34;reshares&#34;][&#34;reshared_count&#34;]
+            source_data[&#34;reshared_user_ids&#34;] = source_data[&#34;reshares&#34;][&#34;user_ids&#34;]
+            del source_data[&#34;reshares&#34;]
+        except:
+            pass
+        try:
+            del source_data[&#34;reshare_message&#34;]
+        except:
+            pass            
+        try:
+            source_data[&#34;is_parent&#34;] = source_data[&#34;conversation&#34;][&#34;parent&#34;]
+            source_data[&#34;replies_count&#34;] = source_data[&#34;conversation&#34;][&#34;replies&#34;]
+            del source_data[&#34;conversation&#34;]
+        except:
+            pass
+        try:
+            del source_data[&#34;links&#34;]
+        except:
+            pass
+        del source_data[&#34;source&#34;]
+        del source_data[&#34;entities&#34;]
+        del source_data[&#34;symbols&#34;]
+        del source_data[&#34;user&#34;]
+        doc_data = pd.Series(source_data, name=source_data[&#39;created_at&#39;])
+        del doc_data[&#34;created_at&#34;]
+        docs = docs.append(doc_data)
+    return docs</code></pre>
+</details>
+</dd>
+<dt id="src.stocktwits.score.preprocess.preprocess"><code class="name flex">
+<span>def <span class="ident">preprocess</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fetch data from elasticsearch, parse it and compute score</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def preprocess():
+    &#34;&#34;&#34; Fetch data from elasticsearch, parse it and compute score
+    &#34;&#34;&#34;
+    # day that needs to be studied
+    date = datetime.datetime(2021, 2, 24)
+    gte = date.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+    date += datetime.timedelta(days=1)
+    lte = date.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+    # elasticsearch query
+    results = search.stocktwits_by_symbols(symbols=[&#34;AMZN&#34;], gte=gte, lte=lte, size=10000)
+    # parsing
+    df = parse(elastic_docs=results, symbol=&#34;AMZN&#34;)
+    # df.to_csv(&#34;./test.csv&#34;)
+    # score computing
+    df = compute_score(dataframe=df)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src.stocktwits.score" href="index.html">src.stocktwits.score</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="src.stocktwits.score.preprocess.compute_score" href="#src.stocktwits.score.preprocess.compute_score">compute_score</a></code></li>
+<li><code><a title="src.stocktwits.score.preprocess.normalize" href="#src.stocktwits.score.preprocess.normalize">normalize</a></code></li>
+<li><code><a title="src.stocktwits.score.preprocess.parse" href="#src.stocktwits.score.preprocess.parse">parse</a></code></li>
+<li><code><a title="src.stocktwits.score.preprocess.preprocess" href="#src.stocktwits.score.preprocess.preprocess">preprocess</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,12 +1,6 @@
 """ Preprocess stocktwits data
 """
 
-from transformers import BertTokenizer
-import json
-import pandas as pd
-import random
-import tensorflow as tf
-
 from pathlib import Path
 parent = Path(__file__).resolve().parent
 srcPath = str(parent.parent.parent).replace("\\", "\\\\")
@@ -147,3 +141,10 @@ def preprocess(train_size, max_length, batch_size):
     encoded = encode(input_ids_list, attention_mask_list, token_type_ids_list, label_list).batch(batch_size) 
     
     return encoded.take(train_size), encoded.skip(train_size)
+
+if __name__ == "__main__":
+    from transformers import BertTokenizer
+    import json
+    import pandas as pd
+    import random
+    import tensorflow as tf

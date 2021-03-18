@@ -40,10 +40,11 @@ sys.path.insert(0, srcPath)
 
 from scrape import flipside
 
-# start = time.time()
-# flipside.job(projects=[&#34;BTC&#34;, &#34;ETH&#34;, &#34;LTC&#34;, &#34;XRP&#34;, &#34;USDT&#34;, &#34;UNI&#34;, &#39;LINK&#39;, &#34;ADA&#34;, &#34;DOT&#34;, &#34;XLM&#34;, &#34;BNB&#34;, &#34;TRX&#34;])
-# end = time.time()
-# print(&#34;Crypto ratings extraction took a total of &#34;+str(end - start)+&#34; seconds&#34;)</code></pre>
+if __name__ == &#34;__main__&#34;:
+    start = time.time()
+    flipside.job(projects=[&#34;BTC&#34;, &#34;ETH&#34;, &#34;LTC&#34;, &#34;XRP&#34;, &#34;USDT&#34;, &#34;UNI&#34;, &#39;LINK&#39;, &#34;ADA&#34;, &#34;DOT&#34;, &#34;XLM&#34;, &#34;BNB&#34;, &#34;TRX&#34;])
+    end = time.time()
+    print(&#34;Crypto ratings extraction took a total of &#34;+str(end - start)+&#34; seconds&#34;)</code></pre>
 </details>
 </section>
 <section>

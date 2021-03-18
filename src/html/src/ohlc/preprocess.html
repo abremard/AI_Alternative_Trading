@@ -32,7 +32,7 @@
 
 from pathlib import Path
 parent = Path(__file__).resolve().parent
-srcPath = str(parent.parent.parent).replace(&#34;\\&#34;, &#34;\\\\&#34;)
+srcPath = str(parent.parent).replace(&#34;\\&#34;, &#34;\\\\&#34;)
 import sys
 sys.path.insert(0, srcPath)
 
@@ -74,12 +74,14 @@ def preprocess():
     &#34;&#34;&#34; Load data from elasticsearch, parse into dataframe and compute features
     &#34;&#34;&#34;    
     # Load data from elastic search to dataframe
-    elastic_docs = search.price_data(size=500)
+    elastic_docs = search.price_data(symbols=[&#39;AAPL&#39;], size=500)
     df = parse(elastic_docs=elastic_docs)
     # Compute features
     df = ta.all_features(dataframe=df)
-    
-# preprocess()</code></pre>
+    print(df)
+
+if __name__ == &#34;__main__&#34;:
+    preprocess()</code></pre>
 </details>
 </section>
 <section>
@@ -151,10 +153,11 @@ def preprocess():
     &#34;&#34;&#34; Load data from elasticsearch, parse into dataframe and compute features
     &#34;&#34;&#34;    
     # Load data from elastic search to dataframe
-    elastic_docs = search.price_data(size=500)
+    elastic_docs = search.price_data(symbols=[&#39;AAPL&#39;], size=500)
     df = parse(elastic_docs=elastic_docs)
     # Compute features
-    df = ta.all_features(dataframe=df)</code></pre>
+    df = ta.all_features(dataframe=df)
+    print(df)</code></pre>
 </details>
 </dd>
 </dl>

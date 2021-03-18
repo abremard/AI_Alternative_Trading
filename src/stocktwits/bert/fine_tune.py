@@ -1,9 +1,6 @@
 """ BERT fine-tune pre-trained model
 """
 
-from transformers import TFBertForSequenceClassification
-import tensorflow as tf
-
 from pathlib import Path
 parent = Path(__file__).resolve().parent
 srcPath = str(parent.parent.parent).replace("\\", "\\\\")
@@ -47,4 +44,7 @@ def fine_tune(max_length = 512, batch_size = 6, train_size = 200):
     
     model.save("model/bert")
 
-# fine_tune()
+if __name__ == "__main__":
+    from transformers import TFBertForSequenceClassification
+    import tensorflow as tf
+    fine_tune()

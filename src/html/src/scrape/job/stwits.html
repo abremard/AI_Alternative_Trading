@@ -54,10 +54,11 @@ def job(symbol):
         next = stwits.extract(symbol=symbol, nb=200, params=next)
         time.sleep(3660)
 
-# start = time.time()
-# job(config.stwitsConfig[&#39;symbol&#39;])
-# end = time.time()
-# print(&#34;Stocktwits extraction took a total of &#34;+str(end - start)+&#34; seconds&#34;)</code></pre>
+if __name__ == &#34;__main__&#34;:
+    start = time.time()
+    job(config.stwitsConfig[&#39;symbol&#39;])
+    end = time.time()
+    print(&#34;Stocktwits extraction took a total of &#34;+str(end - start)+&#34; seconds&#34;)</code></pre>
 </details>
 </section>
 <section>

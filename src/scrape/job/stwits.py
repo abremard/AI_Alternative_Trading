@@ -25,7 +25,8 @@ def job(symbol):
         next = stwits.extract(symbol=symbol, nb=200, params=next)
         time.sleep(3660)
 
-# start = time.time()
-# job(config.stwitsConfig['symbol'])
-# end = time.time()
-# print("Stocktwits extraction took a total of "+str(end - start)+" seconds")
+if __name__ == "__main__":
+    start = time.time()
+    job(config.stwitsConfig['symbol'])
+    end = time.time()
+    print("Stocktwits extraction took a total of "+str(end - start)+" seconds")

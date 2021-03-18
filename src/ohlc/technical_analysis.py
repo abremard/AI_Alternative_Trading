@@ -12,7 +12,6 @@ from ta import add_all_ta_features
 from ta.utils import dropna
 
 from elk import search
-from ohlc import preprocess
 
 def all_features(dataframe):
     """ Compute technical features using Technical Analysis package

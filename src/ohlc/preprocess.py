@@ -3,7 +3,7 @@
 
 from pathlib import Path
 parent = Path(__file__).resolve().parent
-srcPath = str(parent.parent.parent).replace("\\", "\\\\")
+srcPath = str(parent.parent).replace("\\", "\\\\")
 import sys
 sys.path.insert(0, srcPath)
 
@@ -50,5 +50,6 @@ def preprocess():
     # Compute features
     df = ta.all_features(dataframe=df)
     print(df)
-    
-preprocess()
+
+if __name__ == "__main__":
+    preprocess()

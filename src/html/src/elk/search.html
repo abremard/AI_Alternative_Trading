@@ -59,17 +59,115 @@ def search(index, body={}, size=10):
     # make an API call to the Elasticsearch cluster to get documents
     return elastic_client.search(index=index, body=body, size=size)[&#34;hits&#34;][&#34;hits&#34;]
 
-def price_data(size=10000):
+def price_data(symbols, size=10000):
     &#34;&#34;&#34; Collect OHLC data
     Args:
+        symbols (str[]): list of symbols to extract data from
         size (int, optional): result limit size. Defaults to 10000.
 
     Returns:
         Dataframe.Object: dataframe containing price data
     &#34;&#34;&#34;    
-    body = {}
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
     return search(index=&#34;daily_stock&#34;, body=body, size=size)
 
+def balance_sheet(symbols, size=10000):
+    &#34;&#34;&#34; Collect balance sheet data
+    Args:
+        symbols (str[]): list of symbols to extract data from
+        size (int, optional): result limit size. Defaults to 10000.
+
+    Returns:
+        Dataframe.Object: dataframe containing price data
+    &#34;&#34;&#34;    
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
+    return search(index=&#34;balance_sheet&#34;, body=body, size=size)
+
+def cash_flow(symbols, size=10000):
+    &#34;&#34;&#34; Collect cash flow data
+    Args:
+        symbols (str[]): list of symbols to extract data from
+        size (int, optional): result limit size. Defaults to 10000.
+
+    Returns:
+        Dataframe.Object: dataframe containing price data
+    &#34;&#34;&#34;    
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
+    return search(index=&#34;cash_flow&#34;, body=body, size=size)
+
+def earnings(symbols, size=10000):
+    &#34;&#34;&#34; Collect earnings data
+    Args:
+        symbols (str[]): list of symbols to extract data from
+        size (int, optional): result limit size. Defaults to 10000.
+
+    Returns:
+        Dataframe.Object: dataframe containing price data
+    &#34;&#34;&#34;    
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
+    return search(index=&#34;earnings&#34;, body=body, size=size)
+
+def income_statement(symbols, size=10000):
+    &#34;&#34;&#34; Collect income statement data
+    Args:
+        symbols (str[]): list of symbols to extract data from
+        size (int, optional): result limit size. Defaults to 10000.
+
+    Returns:
+        Dataframe.Object: dataframe containing price data
+    &#34;&#34;&#34;    
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
+    return search(index=&#34;income_statement&#34;, body=body, size=size)
 
 def bullish_stocktwits(size=100):
     &#34;&#34;&#34; Collect stocktwits with Bullish label
@@ -132,7 +230,35 @@ def unlabelled_stocktwits(size=100):
             }
         }
     } # match labelled stocktwits
-    return search(index=&#34;stocktwits&#34;, body=body, size=size)    </code></pre>
+    return search(index=&#34;stocktwits&#34;, body=body, size=size)
+
+def stocktwits_by_symbols(symbols, gte, lte, size=100):
+    &#34;&#34;&#34; Collect stocktwits with no label
+    Args:
+        size (int, optional): result limit size. Defaults to 100.
+
+    Returns:
+        Dict: list of stocktwits
+    &#34;&#34;&#34;     
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : [{
+                    &#34;terms&#34; : {
+                        &#34;symbols.symbol.keyword&#34;: symbols
+                    }
+                },{
+                    &#34;range&#34;: {
+                        &#34;created_at&#34;: {
+                            &#34;gte&#34;: gte, 
+                            &#34;lte&#34;: lte        
+                        }
+                    }
+                }]
+            }
+        }
+    } # match labelled stocktwits
+    return search(index=&#34;stocktwits&#34;, body=body, size=size)</code></pre>
 </details>
 </section>
 <section>
@@ -142,6 +268,50 @@ def unlabelled_stocktwits(size=100):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="src.elk.search.balance_sheet"><code class="name flex">
+<span>def <span class="ident">balance_sheet</span></span>(<span>symbols, size=10000)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Collect balance sheet data</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
+<dd>list of symbols to extract data from</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>result limit size. Defaults to 10000.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dataframe.Object</code></dt>
+<dd>dataframe containing price data</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def balance_sheet(symbols, size=10000):
+    &#34;&#34;&#34; Collect balance sheet data
+    Args:
+        symbols (str[]): list of symbols to extract data from
+        size (int, optional): result limit size. Defaults to 10000.
+
+    Returns:
+        Dataframe.Object: dataframe containing price data
+    &#34;&#34;&#34;    
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
+    return search(index=&#34;balance_sheet&#34;, body=body, size=size)</code></pre>
+</details>
+</dd>
 <dt id="src.elk.search.bearish_stocktwits"><code class="name flex">
 <span>def <span class="ident">bearish_stocktwits</span></span>(<span>size=100)</span>
 </code></dt>
@@ -224,13 +394,15 @@ def unlabelled_stocktwits(size=100):
     return search(index=&#34;stocktwits&#34;, body=body, size=size)</code></pre>
 </details>
 </dd>
-<dt id="src.elk.search.price_data"><code class="name flex">
-<span>def <span class="ident">price_data</span></span>(<span>size=10000)</span>
+<dt id="src.elk.search.cash_flow"><code class="name flex">
+<span>def <span class="ident">cash_flow</span></span>(<span>symbols, size=10000)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Collect OHLC data</p>
+<div class="desc"><p>Collect cash flow data</p>
 <h2 id="args">Args</h2>
 <dl>
+<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
+<dd>list of symbols to extract data from</dd>
 <dt><strong><code>size</code></strong> :&ensp;<code>int</code>, optional</dt>
 <dd>result limit size. Defaults to 10000.</dd>
 </dl>
@@ -243,15 +415,158 @@ def unlabelled_stocktwits(size=100):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def price_data(size=10000):
-    &#34;&#34;&#34; Collect OHLC data
+<pre><code class="python">def cash_flow(symbols, size=10000):
+    &#34;&#34;&#34; Collect cash flow data
     Args:
+        symbols (str[]): list of symbols to extract data from
         size (int, optional): result limit size. Defaults to 10000.
 
     Returns:
         Dataframe.Object: dataframe containing price data
     &#34;&#34;&#34;    
-    body = {}
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
+    return search(index=&#34;cash_flow&#34;, body=body, size=size)</code></pre>
+</details>
+</dd>
+<dt id="src.elk.search.earnings"><code class="name flex">
+<span>def <span class="ident">earnings</span></span>(<span>symbols, size=10000)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Collect earnings data</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
+<dd>list of symbols to extract data from</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>result limit size. Defaults to 10000.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dataframe.Object</code></dt>
+<dd>dataframe containing price data</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def earnings(symbols, size=10000):
+    &#34;&#34;&#34; Collect earnings data
+    Args:
+        symbols (str[]): list of symbols to extract data from
+        size (int, optional): result limit size. Defaults to 10000.
+
+    Returns:
+        Dataframe.Object: dataframe containing price data
+    &#34;&#34;&#34;    
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
+    return search(index=&#34;earnings&#34;, body=body, size=size)</code></pre>
+</details>
+</dd>
+<dt id="src.elk.search.income_statement"><code class="name flex">
+<span>def <span class="ident">income_statement</span></span>(<span>symbols, size=10000)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Collect income statement data</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
+<dd>list of symbols to extract data from</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>result limit size. Defaults to 10000.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dataframe.Object</code></dt>
+<dd>dataframe containing price data</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def income_statement(symbols, size=10000):
+    &#34;&#34;&#34; Collect income statement data
+    Args:
+        symbols (str[]): list of symbols to extract data from
+        size (int, optional): result limit size. Defaults to 10000.
+
+    Returns:
+        Dataframe.Object: dataframe containing price data
+    &#34;&#34;&#34;    
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
+    return search(index=&#34;income_statement&#34;, body=body, size=size)</code></pre>
+</details>
+</dd>
+<dt id="src.elk.search.price_data"><code class="name flex">
+<span>def <span class="ident">price_data</span></span>(<span>symbols, size=10000)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Collect OHLC data</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>symbols</code></strong> :&ensp;<code>str[]</code></dt>
+<dd>list of symbols to extract data from</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>result limit size. Defaults to 10000.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dataframe.Object</code></dt>
+<dd>dataframe containing price data</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def price_data(symbols, size=10000):
+    &#34;&#34;&#34; Collect OHLC data
+    Args:
+        symbols (str[]): list of symbols to extract data from
+        size (int, optional): result limit size. Defaults to 10000.
+
+    Returns:
+        Dataframe.Object: dataframe containing price data
+    &#34;&#34;&#34;    
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : {
+                    &#34;terms&#34; : {
+                        &#34;symbol.keyword&#34;: symbols
+                    }
+                }
+            }
+        }
+    }
     return search(index=&#34;daily_stock&#34;, body=body, size=size)</code></pre>
 </details>
 </dd>
@@ -293,6 +608,54 @@ def unlabelled_stocktwits(size=100):
     return elastic_client.search(index=index, body=body, size=size)[&#34;hits&#34;][&#34;hits&#34;]</code></pre>
 </details>
 </dd>
+<dt id="src.elk.search.stocktwits_by_symbols"><code class="name flex">
+<span>def <span class="ident">stocktwits_by_symbols</span></span>(<span>symbols, gte, lte, size=100)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Collect stocktwits with no label</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>result limit size. Defaults to 100.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dict</code></dt>
+<dd>list of stocktwits</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stocktwits_by_symbols(symbols, gte, lte, size=100):
+    &#34;&#34;&#34; Collect stocktwits with no label
+    Args:
+        size (int, optional): result limit size. Defaults to 100.
+
+    Returns:
+        Dict: list of stocktwits
+    &#34;&#34;&#34;     
+    body = {
+        &#34;query&#34; : {
+            &#34;bool&#34; : {
+                &#34;filter&#34; : [{
+                    &#34;terms&#34; : {
+                        &#34;symbols.symbol.keyword&#34;: symbols
+                    }
+                },{
+                    &#34;range&#34;: {
+                        &#34;created_at&#34;: {
+                            &#34;gte&#34;: gte, 
+                            &#34;lte&#34;: lte        
+                        }
+                    }
+                }]
+            }
+        }
+    } # match labelled stocktwits
+    return search(index=&#34;stocktwits&#34;, body=body, size=size)</code></pre>
+</details>
+</dd>
 <dt id="src.elk.search.unlabelled_stocktwits"><code class="name flex">
 <span>def <span class="ident">unlabelled_stocktwits</span></span>(<span>size=100)</span>
 </code></dt>
@@ -331,7 +694,7 @@ def unlabelled_stocktwits(size=100):
             }
         }
     } # match labelled stocktwits
-    return search(index=&#34;stocktwits&#34;, body=body, size=size)    </code></pre>
+    return search(index=&#34;stocktwits&#34;, body=body, size=size)</code></pre>
 </details>
 </dd>
 </dl>
@@ -352,10 +715,15 @@ def unlabelled_stocktwits(size=100):
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="src.elk.search.balance_sheet" href="#src.elk.search.balance_sheet">balance_sheet</a></code></li>
 <li><code><a title="src.elk.search.bearish_stocktwits" href="#src.elk.search.bearish_stocktwits">bearish_stocktwits</a></code></li>
 <li><code><a title="src.elk.search.bullish_stocktwits" href="#src.elk.search.bullish_stocktwits">bullish_stocktwits</a></code></li>
+<li><code><a title="src.elk.search.cash_flow" href="#src.elk.search.cash_flow">cash_flow</a></code></li>
+<li><code><a title="src.elk.search.earnings" href="#src.elk.search.earnings">earnings</a></code></li>
+<li><code><a title="src.elk.search.income_statement" href="#src.elk.search.income_statement">income_statement</a></code></li>
 <li><code><a title="src.elk.search.price_data" href="#src.elk.search.price_data">price_data</a></code></li>
 <li><code><a title="src.elk.search.search" href="#src.elk.search.search">search</a></code></li>
+<li><code><a title="src.elk.search.stocktwits_by_symbols" href="#src.elk.search.stocktwits_by_symbols">stocktwits_by_symbols</a></code></li>
 <li><code><a title="src.elk.search.unlabelled_stocktwits" href="#src.elk.search.unlabelled_stocktwits">unlabelled_stocktwits</a></code></li>
 </ul>
 </li>

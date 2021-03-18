@@ -164,4 +164,5 @@ def preprocess():
     df = compute_score(dataframe=df)
     # df.to_csv("./test-comp.csv")
 
-# preprocess()
+if __name__ == "__main__":
+    preprocess()

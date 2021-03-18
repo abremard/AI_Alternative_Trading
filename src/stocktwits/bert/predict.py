@@ -1,9 +1,6 @@
 """ BERT use fine-tuned model for prediction
 """
 
-from transformers import TFBertForSequenceClassification
-import tensorflow as tf
-
 from pathlib import Path
 parent = Path(__file__).resolve().parent
 srcPath = str(parent.parent.parent).replace("\\", "\\\\")
@@ -29,3 +26,7 @@ def predict(pred_sentences):
         label = tf.argmax(tf_predictions, axis=1)
         label = label.numpy()
         print(pred_sentences[i], ": \n", labels[label[i]])
+
+if __name__ == "__main__":
+    from transformers import TFBertForSequenceClassification
+    import tensorflow as tf

@@ -213,4 +213,5 @@ def preprocess():
     e_df = parse_e(elastic_docs=earnings)
     is_df = parse_is(elastic_docs=income_statement)
     
-preprocess()
+if __name__ == "__main__":
+    preprocess()

@@ -11,7 +11,8 @@ sys.path.insert(0, srcPath)
 
 from scrape import coindesk
 
-# start = time.time()
-# coindesk.job()
-# end = time.time()
-# print("Crypto news extraction took a total of "+str(end - start)+" seconds")
+if __name__ == "__main__":
+    start = time.time()
+    coindesk.job()
+    end = time.time()
+    print("Crypto news extraction took a total of "+str(end - start)+" seconds")

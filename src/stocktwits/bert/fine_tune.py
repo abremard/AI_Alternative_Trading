@@ -10,7 +10,7 @@ srcPath = str(parent.parent.parent).replace("\\", "\\\\")
 import sys
 sys.path.insert(0, srcPath)
 
-from nlp.sentiment import preprocess
+from stocktwits.sentiment import preprocess
 
 def fine_tune(max_length = 512, batch_size = 6, train_size = 200):
     """ Model fit for fine-tuning a BERT pre-trained model

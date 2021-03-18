@@ -15,7 +15,7 @@ sys.path.insert(0, srcPath)
 
 from utils import prettyprint as pp
 from elk import search
-from nlp.bert import tokenize
+from stocktwits.bert import tokenize
  
 def map_doc_to_dict(input_ids, attention_masks, token_type_ids, label):
     """ Map to the expected input to TFBertForSequenceClassification

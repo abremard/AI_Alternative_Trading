@@ -28,7 +28,18 @@ def tokenizer_plus(tokenizer, sentence, max_length=20):
 
     Returns:
         Dict: tokenized sentence
-    """    
+    """
+    # * Data clean up
+    # TODO Clean up sentences, remove
+    # - hyperlinks
+    # - hashtags
+    # - username mentions
+    # - numbers
+    # - emoticons \ud83d\udcaa\ud83d\udcaa\ud83d\udcaa
+    # - tickers like $AAPL, $AAL
+    # - stopwords
+    # TODO Lower case the sentence
+    
     # * Tokenization plus
     bert_input = tokenizer.encode_plus(
                             sentence,                      

@@ -45,9 +45,10 @@ def preprocess():
     """ Load data from elasticsearch, parse into dataframe and compute features
     """    
     # Load data from elastic search to dataframe
-    elastic_docs = search.price_data(size=500)
+    elastic_docs = search.price_data(symbols=['AAPL'], size=500)
     df = parse(elastic_docs=elastic_docs)
     # Compute features
     df = ta.all_features(dataframe=df)
+    print(df)
     
-# preprocess()
+preprocess()

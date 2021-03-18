@@ -10,8 +10,8 @@ srcPath = str(parent.parent.parent).replace("\\", "\\\\")
 import sys
 sys.path.insert(0, srcPath)
 
-from nlp.sentiment import preprocess
-from nlp.bert import tokenize
+from stocktwits.sentiment import preprocess
+from stocktwits.bert import tokenize
 
 def load(path="model/bert"):
     return tf.keras.models.load_model(path)

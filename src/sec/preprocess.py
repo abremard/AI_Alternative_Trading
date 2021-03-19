@@ -213,5 +213,11 @@ def preprocess():
     e_df = parse_e(elastic_docs=earnings)
     is_df = parse_is(elastic_docs=income_statement)
     
+    # to csv
+    bs_df.to_csv("./bs.csv")
+    cf_df.to_csv("./cf.csv")
+    e_df.to_csv("./e.csv")
+    is_df.to_csv("./is.csv")
+    
 if __name__ == "__main__":
     preprocess()

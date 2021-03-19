@@ -124,7 +124,7 @@ def normalize(df):
     # min-max normalization
     max_value = result['score'].max()
     min_value = result['score'].min()
-    result['score'] = (result['score'] - min_value) / (max_value - min_value)
+    result['score_mm_norm'] = (result['score'] - min_value) / (max_value - min_value)
     
     return result
 
@@ -159,10 +159,10 @@ def preprocess():
     results = search.stocktwits_by_symbols(symbols=["AMZN"], gte=gte, lte=lte, size=10000)
     # parsing
     df = parse(elastic_docs=results, symbol="AMZN")
-    # df.to_csv("./test.csv")
+    df.to_csv("./test.csv")
     # score computing
     df = compute_score(dataframe=df)
-    # df.to_csv("./test-comp.csv")
+    df.to_csv("./test-comp.csv")
 
 if __name__ == "__main__":
     preprocess()

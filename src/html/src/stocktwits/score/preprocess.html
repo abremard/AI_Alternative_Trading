@@ -153,7 +153,7 @@ def normalize(df):
     # min-max normalization
     max_value = result[&#39;score&#39;].max()
     min_value = result[&#39;score&#39;].min()
-    result[&#39;score&#39;] = (result[&#39;score&#39;] - min_value) / (max_value - min_value)
+    result[&#39;score_mm_norm&#39;] = (result[&#39;score&#39;] - min_value) / (max_value - min_value)
     
     return result
 
@@ -188,10 +188,10 @@ def preprocess():
     results = search.stocktwits_by_symbols(symbols=[&#34;AMZN&#34;], gte=gte, lte=lte, size=10000)
     # parsing
     df = parse(elastic_docs=results, symbol=&#34;AMZN&#34;)
-    # df.to_csv(&#34;./test.csv&#34;)
+    df.to_csv(&#34;./test.csv&#34;)
     # score computing
     df = compute_score(dataframe=df)
-    # df.to_csv(&#34;./test-comp.csv&#34;)
+    df.to_csv(&#34;./test-comp.csv&#34;)
 
 if __name__ == &#34;__main__&#34;:
     preprocess()</code></pre>
@@ -295,7 +295,7 @@ if __name__ == &#34;__main__&#34;:
     # min-max normalization
     max_value = result[&#39;score&#39;].max()
     min_value = result[&#39;score&#39;].min()
-    result[&#39;score&#39;] = (result[&#39;score&#39;] - min_value) / (max_value - min_value)
+    result[&#39;score_mm_norm&#39;] = (result[&#39;score&#39;] - min_value) / (max_value - min_value)
     
     return result</code></pre>
 </details>
@@ -420,9 +420,10 @@ if __name__ == &#34;__main__&#34;:
     results = search.stocktwits_by_symbols(symbols=[&#34;AMZN&#34;], gte=gte, lte=lte, size=10000)
     # parsing
     df = parse(elastic_docs=results, symbol=&#34;AMZN&#34;)
-    # df.to_csv(&#34;./test.csv&#34;)
+    df.to_csv(&#34;./test.csv&#34;)
     # score computing
-    df = compute_score(dataframe=df)</code></pre>
+    df = compute_score(dataframe=df)
+    df.to_csv(&#34;./test-comp.csv&#34;)</code></pre>
 </details>
 </dd>
 </dl>

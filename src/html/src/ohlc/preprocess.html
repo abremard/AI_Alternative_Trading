@@ -78,7 +78,8 @@ def preprocess():
     df = parse(elastic_docs=elastic_docs)
     # Compute features
     df = ta.all_features(dataframe=df)
-    print(df)
+    # to csv
+    df.to_csv(&#34;./features.csv&#34;)
 
 if __name__ == &#34;__main__&#34;:
     preprocess()</code></pre>
@@ -157,7 +158,8 @@ if __name__ == &#34;__main__&#34;:
     df = parse(elastic_docs=elastic_docs)
     # Compute features
     df = ta.all_features(dataframe=df)
-    print(df)</code></pre>
+    # to csv
+    df.to_csv(&#34;./features.csv&#34;)</code></pre>
 </details>
 </dd>
 </dl>

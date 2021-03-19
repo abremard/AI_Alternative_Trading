@@ -242,6 +242,12 @@ def preprocess():
     e_df = parse_e(elastic_docs=earnings)
     is_df = parse_is(elastic_docs=income_statement)
     
+    # to csv
+    bs_df.to_csv(&#34;./bs.csv&#34;)
+    cf_df.to_csv(&#34;./cf.csv&#34;)
+    e_df.to_csv(&#34;./e.csv&#34;)
+    is_df.to_csv(&#34;./is.csv&#34;)
+    
 if __name__ == &#34;__main__&#34;:
     preprocess()</code></pre>
 </details>
@@ -542,7 +548,13 @@ if __name__ == &#34;__main__&#34;:
     bs_df = parse_bs(elastic_docs=balance_sheet)
     cf_df = parse_cf(elastic_docs=cash_flow)
     e_df = parse_e(elastic_docs=earnings)
-    is_df = parse_is(elastic_docs=income_statement)</code></pre>
+    is_df = parse_is(elastic_docs=income_statement)
+    
+    # to csv
+    bs_df.to_csv(&#34;./bs.csv&#34;)
+    cf_df.to_csv(&#34;./cf.csv&#34;)
+    e_df.to_csv(&#34;./e.csv&#34;)
+    is_df.to_csv(&#34;./is.csv&#34;)</code></pre>
 </details>
 </dd>
 </dl>

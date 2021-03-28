@@ -31,17 +31,23 @@ RESULTS_DIR = f"results"
 
 
 ## time_fmt = '%Y-%m-%d'
-START_DATE = "2000-01-01"
+START_DATE = "2019-01-01"
 END_DATE = "2021-01-01"
-
 START_TRADE_DATE = "2019-01-01"
+
+# train & validation
+END_COLLECT_DATE = "2021-03-01"
+TRAIN_START = '2019-01-01'
+TRAIN_END = '2021-01-01'
+VAL_TEST_START = '2021-01-01'
+VAL_TEST_END = '2021-03-01'
 
 ## dataset default columns
 DEFAULT_DATA_COLUMNS = ["date", "tic", "close"]
 
 ## stockstats technical indicator column names
 ## check https://pypi.org/project/stockstats/ for different names
-TECHNICAL_INDICATORS_LIST = ["macd","boll_ub","boll_lb","rsi_30", "cci_30", "dx_30","close_30_sma","close_60_sma"]
+TECHNICAL_INDICATORS_LIST = ['macd', 'boll_ub', 'boll_lb', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma', 'atr', 'dma', 'adx', 'adxr', 'trix', 'vr']
 
 
 ## Model Parameters
@@ -171,7 +177,6 @@ NAS_100_TICKER = [
     "ORLY",
     "CERN",
     "BKNG",
-    "MYL",
     "MU",
     "DLTR",
     "ALXN",

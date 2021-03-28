@@ -48,7 +48,7 @@ def preprocess(size=500, symbols=['AAPL'], to_csv = False):
     elastic_docs = search.price_data(symbols=symbols, size=size)
     df = parse(elastic_docs=elastic_docs)
     # Compute features
-    df = ta.all_features(dataframe=df)
+    # df = ta.all_features(dataframe=df)
     # to csv
     if to_csv:
         df.to_csv("./features.csv")
@@ -57,4 +57,4 @@ def preprocess(size=500, symbols=['AAPL'], to_csv = False):
     return df
 
 if __name__ == "__main__":
-    df = preprocess(size=500, symbols=['AAPL'], to_csv=True)
+    df = preprocess(size=500, symbols=['AAPL'], to_csv=False)

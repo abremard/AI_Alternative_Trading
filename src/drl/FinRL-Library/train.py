@@ -4,7 +4,7 @@ Train model using FinRL
 
 from pathlib import Path
 parent = Path(__file__).resolve().parent
-srcPath = str(parent.parent).replace("\\", "\\\\")
+srcPath = str(parent.parent.parent).replace("\\", "\\\\")
 import sys
 sys.path.insert(0, srcPath)
 
@@ -26,7 +26,7 @@ from finrl.env.env_stocktrading import StockTradingEnv
 from finrl.env.env_portfolio import StockPortfolioEnv
 
 from finrl.model.models import DRLAgent,DRLEnsembleAgent
-from finrl.trade.backtest import BackTestStats, BaselineStats, BackTestPlot
+from finrl.trade.backtest import backtest_stats, get_baseline, backtest_plot
 
 from pprint import pprint
 
@@ -35,35 +35,32 @@ sys.path.append("../FinRL-Library")
 
 import itertools
 
-from drl import config as cfg
-
 import os
-if not os.path.exists("./" + cfg.config['DATA_SAVE_DIR']):
-    os.makedirs("./" + cfg.config['DATA_SAVE_DIR'])
-if not os.path.exists("./" + cfg.config['TRAINED_MODEL_DIR']):
-    os.makedirs("./" + cfg.config['TRAINED_MODEL_DIR'])
-if not os.path.exists("./" + cfg.config['TENSORBOARD_LOG_DIR']):
-    os.makedirs("./" + cfg.config['TENSORBOARD_LOG_DIR'])
-if not os.path.exists("./" + cfg.config['RESULTS_DIR']):
-    os.makedirs("./" + cfg.config['RESULTS_DIR'])
+if not os.path.exists("./" + config.DATA_SAVE_DIR):
+    os.makedirs("./" + config.DATA_SAVE_DIR)
+if not os.path.exists("./" + config.TRAINED_MODEL_DIR):
+    os.makedirs("./" + config.TRAINED_MODEL_DIR)
+if not os.path.exists("./" + config.TENSORBOARD_LOG_DIR):
+    os.makedirs("./" + config.TENSORBOARD_LOG_DIR)
+if not os.path.exists("./" + config.RESULTS_DIR):
+    os.makedirs("./" + config.RESULTS_DIR)
     
 from ohlc import preprocess as prep
 
 if __name__ == "__main__":
-    # df = prep.preprocess(size=500, symbols=['AAPL'], to_csv=True)
     
-    # ! tmp : remove later
-    # df['turbulence'] = np.random.randint(1, 10, size=len(df))
-
+    # TODO : integrate with our own preprocessor
+    # TODO : df = prep.preprocess(size=500, symbols=['AAPL'], to_csv=True)
+    
     df = YahooDownloader(start_date = config.START_DATE,
-                        end_date = '2021-01-19',
-                        ticker_list = ['AAPL', 'IBM', 'TSLA', 'AMZN', 'FB']).fetch_data()
+                        end_date = config.END_COLLECT_DATE,
+                        ticker_list = config.NAS_100_TICKER).fetch_data()
 
     df.sort_values(['date','tic']).head()
     
     fe = FeatureEngineer(
                     use_technical_indicator=True,
-                    tech_indicator_list = ['macd', 'boll_ub', 'boll_lb', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'],
+                    tech_indicator_list = config.TECHNICAL_INDICATORS_LIST,
                     use_turbulence=True,
                     user_defined_feature = False)
 
@@ -80,24 +77,8 @@ if __name__ == "__main__":
     processed_full = processed_full.fillna(0)
     
     stock_dimension = len(processed_full.tic.unique())
-    state_space = 1 + 2*stock_dimension + len(['macd', 'boll_ub', 'boll_lb', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'])*stock_dimension
+    state_space = 1 + 2*stock_dimension + len(config.TECHNICAL_INDICATORS_LIST)*stock_dimension
     print(f"Stock Dimension: {stock_dimension}, State Space: {state_space}")
-
-    # stock_dimension = len(df.columns) - 1
-    # state_space = 1 + stock_dimension
-
-    # env_kwargs = {
-    #     "hmax": 100, 
-    #     "initial_amount": 50_000_000/100, #Since in Indonesia the minimum number of shares per trx is 100, then we scaled the initial amount by dividing it with 100 
-    #     "buy_cost_pct": 0.0019, #IPOT has 0.19% buy cost
-    #     "sell_cost_pct": 0.0029, #IPOT has 0.29% sell cost
-    #     "state_space": state_space,
-    #     "tech_indicator_list": ["volume_adi", "volume_obv", "volume_cmf", "volume_fi", "volume_mfi", "volume_em", "volume_sma_em", "volume_vpt", "volume_nvi", "volume_vwap volatility_atr", "volatility_bbm", "volatility_bbh", "volatility_bbl", "volatility_bbw", "volatility_bbp", "volatility_bbhi", "volatility_bbli", "volatility_kcc", "volatility_kch", "volatility_kcl", "volatility_kcw", "volatility_kcp", "volatility_kchi", "volatility_kcli", "volatility_dcl", "volatility_dch", "volatility_dcm", "volatility_dcw", "volatility_dcp", "volatility_ui", "trend_macd", "trend_macd_signal trend_macd_diff", "trend_sma_fast", "trend_sma_slow", "trend_ema_fast", "trend_ema_slow", "trend_adx", "trend_adx_pos", "trend_adx_neg", "trend_vortex_ind_pos", "trend_vortex_ind_neg", "trend_vortex_ind_diff", "trend_trix", "trend_mass_index", "trend_cci", "trend_dpo", "trend_kst", "trend_kst_sig", "trend_kst_diff", "trend_ichimoku_conv", "trend_ichimoku_base", "trend_ichimoku_a", "trend_ichimoku_b", "trend_visual_ichimoku_a trend_visual_ichimoku_b trend_aroon_up", "trend_aroon_down", "trend_aroon_ind", "trend_psar_up", "trend_psar_down", "trend_psar_up_indicator trend_psar_down_indicator", "trend_stc", "momentum_rsi", "momentum_stoch_rsi", "momentum_stoch_rsi_k", "momentum_stoch_rsi_d", "momentum_tsi", "momentum_uo momentum_stoch", "momentum_stoch_signal", "momentum_wr momentum_ao momentum_kama", "momentum_roc", "momentum_ppo", "momentum_ppo_signal", "momentum_ppo_hist others_dr", "others_dlr", "others_cr"],
-    #     "stock_dim": 1,
-    #     "action_space": 1, 
-    #     "reward_scaling": 1e-4,
-    #     "print_verbosity":5
-    # }
     
     env_kwargs = {
         "hmax": 100, 
@@ -106,18 +87,18 @@ if __name__ == "__main__":
         "sell_cost_pct": 0.0029, #IPOT has 0.29% sell cost
         "state_space": state_space, 
         "stock_dim": stock_dimension, 
-        "tech_indicator_list": ['macd', 'boll_ub', 'boll_lb', 'rsi_30', 'cci_30', 'dx_30', 'close_30_sma', 'close_60_sma'], 
-        "action_space": stock_dimension, 
+        "tech_indicator_list": config.TECHNICAL_INDICATORS_LIST, 
+        "action_space": stock_dimension,
         "reward_scaling": 1e-4,
         "print_verbosity":5
     }
     
     rebalance_window = 63 # rebalance_window is the number of days to retrain the model
     validation_window = 63 # validation_window is the number of days to do validation and trading (e.g. if validation_window=63, then both validation and trading period will be 63 days)
-    train_start = '2000-01-01'
-    train_end = '2019-01-01'
-    val_test_start = '2019-01-01'
-    val_test_end = '2021-01-18'
+    train_start = config.TRAIN_START
+    train_end = config.TRAIN_END
+    val_test_start = config.VAL_TEST_START
+    val_test_end = config.VAL_TEST_END
 
     ensemble_agent = DRLEnsembleAgent(df=processed_full,
                     train_period=(train_start,train_end),
@@ -176,17 +157,17 @@ if __name__ == "__main__":
     print("==============Get Backtest Results===========")
     now = datetime.datetime.now().strftime('%Y%m%d-%Hh%M')
 
-    perf_stats_all = BackTestStats(account_value=df_account_value)
+    perf_stats_all = backtest_stats(account_value=df_account_value)
     perf_stats_all = pd.DataFrame(perf_stats_all)
     
     
     print("==============Compare to IHSG===========")
-    BackTestPlot(df_account_value, 
+    backtest_plot(df_account_value, 
                 baseline_ticker = '^JKSE', 
                 baseline_start = df_account_value.loc[0,'date'],
                 baseline_end = df_account_value.loc[len(df_account_value)-1,'date'])
     
     print("==============Get Baseline Stats===========")
-    baseline_perf_stats=BaselineStats('^JKSE',
+    baseline_perf_stats=get_baseline('^JKSE',
                                     baseline_start = df_account_value.loc[0,'date'],
                                     baseline_end = df_account_value.loc[len(df_account_value)-1,'date'])

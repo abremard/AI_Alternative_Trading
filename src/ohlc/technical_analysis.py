@@ -34,7 +34,7 @@ def all_features(dataframe):
     del dataframe['close']
     del dataframe['dividend_amount']
     del dataframe['split_coefficient']
-    del dataframe['day']
+    dataframe = dataframe.rename(columns={'day': 'date'})
     # Clean NaN values
     df = dropna(dataframe)
     # Add ta features filling NaN values

@@ -41,16 +41,20 @@ def parse(elastic_docs):
     
     return docs
 
-def preprocess():
+def preprocess(size=500, symbols=['AAPL'], to_csv = False):
     """ Load data from elasticsearch, parse into dataframe and compute features
     """    
     # Load data from elastic search to dataframe
-    elastic_docs = search.price_data(symbols=['AAPL'], size=500)
+    elastic_docs = search.price_data(symbols=symbols, size=size)
     df = parse(elastic_docs=elastic_docs)
     # Compute features
     df = ta.all_features(dataframe=df)
     # to csv
-    df.to_csv("./features.csv")
+    if to_csv:
+        df.to_csv("./features.csv")
+    print(df)
+    
+    return df
 
 if __name__ == "__main__":
-    preprocess()
+    df = preprocess(size=500, symbols=['AAPL'], to_csv=True)
